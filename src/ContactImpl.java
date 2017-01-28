@@ -3,15 +3,17 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 /**
  * Created by D on 28/01/2017.
  */
+
 public class ContactImpl implements Contact {
     /**
      * Returns the ID of the contact.
      *
      * @return the ID of the contact.
      */
-    int getId(){
+    @Override
+    public int getId(){
         throw new NotImplementedException();
-        return 0;
+        //return 0;
     }
 
     /**
@@ -19,9 +21,10 @@ public class ContactImpl implements Contact {
      *
      * @return the name of the contact.
      */
-    String getName(){
+    @Override
+    public String getName(){
         throw new NotImplementedException();
-        return null;
+        //return null;
     }
 
     /**
@@ -32,9 +35,10 @@ public class ContactImpl implements Contact {
      *
      * @return a string with notes about the contact, maybe empty.
      */
-    String getNotes(){
+    @Override
+    public String getNotes(){
         throw new NotImplementedException();
-        return null;
+        //return null;
     }
 
     /**
@@ -42,7 +46,8 @@ public class ContactImpl implements Contact {
      *
      * @param note the notes to be added
      */
-    void addNotes(String note){
+    @Override
+    public void addNotes(String note){
         throw new NotImplementedException();
     }
 }
