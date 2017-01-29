@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 
 public class ContactTest {
 
-    @BeforeClass
+ //   @BeforeClass
 
 
 
@@ -20,16 +20,17 @@ public class ContactTest {
     }
     @Test
     public void idTest(){
-        Contact trial1 = new ContactImpl(2222, "John", "Boss");
-        Contact trial2 = new ContactImpl(1111, "Mike");
-        assertEquals("Names Don't Match", trial1.getName(),"John" );
-        assertEquals("Names Don't Match", trial2.getName(),"Mike" );
+        Contact trial1 = new ContactImpl(2222,"John","Boss");
+        Contact trial2 = new ContactImpl(1111,"Mike");
+        assertEquals("IDs Don't Match", trial1.getId(), 2222 );
+        assertEquals("IDs Don't Match", trial2.getId(),1111 );
     }
+
     @Test
     public void notesTest(){
         Contact trial1 = new ContactImpl(2222, "John", "Boss");
         Contact trial2 = new ContactImpl(1111, "Mike");
-        assertEquals("Names Don't Match", trial1.getName(),"John" );
-        assertEquals("Names Don't Match", trial2.getName(),"Mike" );
+        assertEquals("Names Don't Match", trial1.getNotes(),"Boss" );
+        assertEquals("Names Don't Match", trial2.getNotes(),null );
     }
 }

@@ -26,8 +26,8 @@ public class ContactImpl implements Contact {
      */
     @Override
     public int getId(){
-        throw new NotImplementedException();
-        //return 0;
+        //throw new NotImplementedException();
+        return this.id;
     }
 
     /**
@@ -38,7 +38,7 @@ public class ContactImpl implements Contact {
     @Override
     public String getName(){
         //throw new NotImplementedException();
-        return name;
+        return this.name;
     }
 
     /**
@@ -51,8 +51,8 @@ public class ContactImpl implements Contact {
      */
     @Override
     public String getNotes(){
-        throw new NotImplementedException();
-        //return null;
+        //throw new NotImplementedException();
+        return this.notes;
     }
 
     /**
