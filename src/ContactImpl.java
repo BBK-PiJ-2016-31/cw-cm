@@ -35,6 +35,6 @@ public class ContactImpl implements Contact {
     @Override
     public void addNotes(String note){
         //throw new NotImplementedException();
-        this.notes+=note;
+        this.notes+=(" "+note);
     }
 }

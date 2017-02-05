@@ -39,7 +39,7 @@ public class ContactTest {
         String str2= "This note is added to trial2";
         trial1.addNotes(str1);
         trial2.addNotes(str2);
-        assertEquals("Notes1 Don't Match", "Boss"+str1,"Boss"+str1);
+        assertEquals("Notes1 Don't Match", "Boss "+str1,"Boss "+str1);
         assertEquals("Notes2 Don't Match", str2,str2);
     }
 }
