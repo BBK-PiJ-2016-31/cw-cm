@@ -37,4 +37,11 @@ public class ContactImpl implements Contact {
         //throw new NotImplementedException();
         this.notes+=(" "+note);
     }
+    /*
+     * Generates a unique ID for the contact
+     * @return A Unique ID for the newly created contact.
+     */
+    public int generateID(){
+
+    }
 }
