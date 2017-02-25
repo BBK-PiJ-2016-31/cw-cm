@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7cf91dd9-9949-49c2-a19e-68e16d8348b6" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ContactImpl.java" afterPath="$PROJECT_DIR$/src/ContactImpl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/test/CW3/ContactTest.class" afterPath="$PROJECT_DIR$/out/test/CW3/ContactTest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TESTS/ContactTest.java" afterPath="$PROJECT_DIR$/TESTS/ContactTest.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -28,11 +30,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ContactImpl.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ContactImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ContactImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="84">
-              <caret line="7" column="46" lean-forward="false" selection-start-line="7" selection-start-column="46" selection-end-line="7" selection-end-column="46" />
+            <state relative-caret-position="306">
+              <caret line="18" column="25" lean-forward="true" selection-start-line="18" selection-start-column="25" selection-end-line="18" selection-end-column="25" />
               <folding>
                 <element signature="e#621#622#0" expanded="true" />
                 <element signature="e#657#658#0" expanded="true" />
@@ -49,11 +51,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ContactTest.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ContactTest.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/TESTS/ContactTest.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="200">
-              <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
+              <caret line="18" column="43" lean-forward="true" selection-start-line="18" selection-start-column="43" selection-end-line="18" selection-end-column="43" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="imports" expanded="true" />
@@ -91,8 +93,8 @@
         <option value="$PROJECT_DIR$/TESTS/MeetingTestK.java" />
         <option value="$PROJECT_DIR$/TESTS/PastMeetingTestK.java" />
         <option value="$PROJECT_DIR$/TESTS/ContactTestKeith.java" />
-        <option value="$PROJECT_DIR$/TESTS/ContactTest.java" />
         <option value="$PROJECT_DIR$/src/ContactImpl.java" />
+        <option value="$PROJECT_DIR$/TESTS/ContactTest.java" />
       </list>
     </option>
   </component>
@@ -595,7 +597,7 @@
       <workItem from="1487018583133" duration="14000" />
       <workItem from="1487018609244" duration="6000" />
       <workItem from="1487538768928" duration="2250000" />
-      <workItem from="1488056887260" duration="6018000" />
+      <workItem from="1488056887260" duration="6594000" />
     </task>
     <task id="LOCAL-00001" summary="Method added to generate Unique ID for the contact. Code needs to be added for this method.&#10;">
       <created>1487600371086</created>
@@ -608,39 +610,39 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="ContactTest - 2017.01.29 at 19h 53m 17s.xml">
+    <history-entry file="ContactTest - 2017.02.25 at 23h 24m 08s.xml">
       <configuration name="ContactTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ContactTest - 2017.01.29 at 19h 53m 25s.xml">
+    <history-entry file="ContactTest - 2017.02.25 at 23h 24m 21s.xml">
       <configuration name="ContactTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ContactTest - 2017.01.29 at 19h 53m 54s.xml">
+    <history-entry file="ContactTest - 2017.02.25 at 23h 24m 42s.xml">
       <configuration name="ContactTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ContactTest - 2017.01.29 at 19h 54m 02s.xml">
+    <history-entry file="ContactTest - 2017.02.25 at 23h 24m 47s.xml">
       <configuration name="ContactTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ContactTest - 2017.01.29 at 19h 54m 12s.xml">
+    <history-entry file="ContactTest - 2017.02.25 at 23h 25m 04s.xml">
       <configuration name="ContactTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ContactTest - 2017.01.29 at 19h 54m 39s.xml">
+    <history-entry file="ContactTest - 2017.02.25 at 23h 25m 13s.xml">
       <configuration name="ContactTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ContactTest - 2017.02.19 at 21h 13m 07s.xml">
+    <history-entry file="ContactTest - 2017.02.25 at 23h 29m 01s.xml">
       <configuration name="ContactTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ContactTest - 2017.02.25 at 23h 18m 24s.xml">
+    <history-entry file="ContactTest - 2017.02.25 at 23h 29m 12s.xml">
       <configuration name="ContactTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ContactTest - 2017.02.25 at 23h 19m 30s.xml">
+    <history-entry file="ContactTest - 2017.02.25 at 23h 31m 14s.xml">
       <configuration name="ContactTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ContactTest - 2017.02.25 at 23h 21m 31s.xml">
+    <history-entry file="ContactTest - 2017.02.25 at 23h 31m 22s.xml">
       <configuration name="ContactTest" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18359000" />
+    <option name="totallyTimeSpent" value="18935000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -1210,21 +1212,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/TESTS/ContactTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ContactImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="7" column="46" lean-forward="false" selection-start-line="7" selection-start-column="46" selection-end-line="7" selection-end-column="46" />
+        <state relative-caret-position="306">
+          <caret line="18" column="25" lean-forward="true" selection-start-line="18" selection-start-column="25" selection-end-line="18" selection-end-column="25" />
           <folding>
             <element signature="e#621#622#0" expanded="true" />
             <element signature="e#657#658#0" expanded="true" />
@@ -1236,6 +1227,17 @@
             <element signature="e#883#884#0" expanded="true" />
             <element signature="e#938#939#0" expanded="true" />
             <element signature="e#981#982#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TESTS/ContactTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="18" column="43" lean-forward="true" selection-start-line="18" selection-start-column="43" selection-end-line="18" selection-end-column="43" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

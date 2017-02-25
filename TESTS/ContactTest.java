@@ -24,12 +24,12 @@ public class ContactTest {
 
     @Test
     public void nameTest(){
-        try{
+ //       try{
             assertEquals("Names Don't Match", trial1.getName(),"John" );
             assertEquals("Names Don't Match", trial2.getName(),"Mike" );
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+   //     } catch (Exception e){
+     //       e.printStackTrace();
+       // }
     }
 
     @Test
