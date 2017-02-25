@@ -4,10 +4,20 @@ public class ContactImpl implements Contact {
     private String notes;
     private int id;
 
+    /**
+     * @throws NullPointerException if name of notes are null.
+     * @throws IllegalArgumentException if id is <=0 of the ID of the contact.
+     */
     public ContactImpl(int id, String name, String notes) {
-        this.id=id;
-        this.name=name;
-        this.notes=notes;
+        if (id <= 0) {
+            throw new IllegalArgumentException();
+        }
+        if (name == null || notes == null) {
+            throw new NullPointerException();
+        }
+        this.id = id;
+        this.name = name;
+        this.notes = notes;
     }
 
     public ContactImpl(int id, String name) {
@@ -15,33 +25,22 @@ public class ContactImpl implements Contact {
     }
 
     @Override
-    public int getId(){
-        //throw new NotImplementedException();
+    public int getId() {
         return this.id;
     }
 
     @Override
-    public String getName(){
-        //throw new NotImplementedException();
+    public String getName() {
         return this.name;
     }
 
     @Override
-    public String getNotes(){
-        //throw new NotImplementedException();
+    public String getNotes() {
         return this.notes;
     }
 
     @Override
-    public void addNotes(String note){
-        //throw new NotImplementedException();
-        this.notes+=(" "+note);
-    }
-    /*
-     * Generates a unique ID for the contact
-     * @return A Unique ID for the newly created contact.
-     */
-    public int generateID(){
-
+    public void addNotes(String note) {
+        this.notes += (" " + note) ;
     }
 }
