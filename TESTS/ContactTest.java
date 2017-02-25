@@ -16,7 +16,7 @@ public class ContactTest {
     {
         try{
             trial1 = new ContactImpl(2222, "John", "Boss");
-            trial2 = new ContactImpl(1111, "Mike");
+            trial2 = new ContactImpl(-1111, "Mike");
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -24,12 +24,12 @@ public class ContactTest {
 
     @Test
     public void nameTest(){
- //       try{
+        try{
             assertEquals("Names Don't Match", trial1.getName(),"John" );
             assertEquals("Names Don't Match", trial2.getName(),"Mike" );
-   //     } catch (Exception e){
-     //       e.printStackTrace();
-       // }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Test
