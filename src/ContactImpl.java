@@ -5,14 +5,14 @@ public class ContactImpl implements Contact {
     private int id;
 
     /**
-     * @throws NullPointerException if name of notes are null.
+     * @throws NullPointerException if name is null.
      * @throws IllegalArgumentException if id is <=0 of the ID of the contact.
      */
     public ContactImpl(int id, String name, String notes) {
         if (id <= 0) {
             throw new IllegalArgumentException();
         }
-        if (name == null || notes == null) {
+        if (name == null) {
             throw new NullPointerException();
         }
         this.id = id;
