@@ -4,20 +4,18 @@
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class MeetingImplTest {
 
-		Calendar date = new GregorianCalendar();
-		Calendar date1 = new GregorianCalendar();
-		Set<Contact> contacts = new HashSet<>();
-		Meeting meeting;
+		private Calendar date = new GregorianCalendar();
+		private Calendar date1 = new GregorianCalendar();
+		private Set<Contact> contacts = new LinkedHashSet<>();
+		private Meeting meeting;
 
 		@Before
 		public void createData() {
@@ -26,20 +24,26 @@ public class MeetingImplTest {
 				for (int i = 1; i < 10; i++) {
 						contacts.add(new ContactImpl(i,"A"+i, "Demo notes"));
 				}
+				meeting = new MeetingImplMock(1234,date,this.contacts );
 		}
 
 		@Test
-		public void setMeeting(){
-				meeting = new FutureMeetingImpl(1234,date,this.contacts );
-		}
-
-		@Test
-		public void printContacts(){
+		public void testIDs(){
 				contacts = meeting.getContacts();
-				System.out.println(contacts.isEmpty());
-				for (Contact contact:contacts)
-						System.out.println(
-								"Name: " + contact.getName() + " id: " + contact.getId() + " Notes: " + contact
-										.getNotes());
+				int i=1;
+				for (Contact contact:contacts) {
+						assertEquals("IDs don't match", contact.getId(), i);
+						i++;
+				}
+		}
+
+		@Test
+		public void testNames(){
+				contacts = meeting.getContacts();
+				int i=1;
+				for (Contact contact:contacts) {
+						assertEquals("Names don't match", contact.getName(), "A"+i);
+						i++;
+				}
 		}
 }
