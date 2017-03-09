@@ -91,7 +91,7 @@ public class ContactManagerImpl implements ContactManager {
 	}
 
 	@Override
-	public Set<Contact> getContacts(int... ids) {
+	public Set<Contact> getContacts(int[] ids) {
 		return null;
 	}
 

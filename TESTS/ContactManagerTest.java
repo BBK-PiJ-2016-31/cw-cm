@@ -12,15 +12,24 @@ import static org.junit.Assert.*;
 public class ContactManagerTest {
 
 	ContactManager manager = new ContactManagerImpl();
+	int [] ids  = new int[4];
+	String[] str = new String[6];
 
 	@Before
 	public void setup(){
-		manager.addNewContact("AAA","note3A");
-		manager.addNewContact("BBB","note3B");
-		manager.addNewContact("CCC","note3C");
-		manager.addNewContact("AAAAAA","note6A");
-		manager.addNewContact("BBBBBB","note6B");
-		manager.addNewContact("CCCCCC","note6C");
+		str[0] = "AAA";
+		str[1] = "BBB";
+		str[2] = "CCC";
+		str[3] = "AAAAAA";
+		str[4] = "AAABBB";
+		str[5] = "AAACCC";
+
+		ids[0] = manager.addNewContact(str[0],"note3A");
+		ids[1] = manager.addNewContact(str[1],"note3B");
+		ids[2] = manager.addNewContact(str[2],"note3C");
+		ids[3] = manager.addNewContact(str[3],"note6A");
+		manager.addNewContact(str[4],"note6B");
+		manager.addNewContact(str[5],"note6C");
 	}
 
 	@Test
@@ -45,7 +54,7 @@ public class ContactManagerTest {
 
 
 	@Test
-	public void getContactsTest(){
+	public void getContactsStringTest(){
 		boolean exception = false;
 		try{
 			manager.getContacts((String)null);
@@ -74,7 +83,42 @@ public class ContactManagerTest {
 		}
 		assertTrue(exception);
 		setOfContacts.remove(t);
-		assertTrue("Set of contacts var should be empty",setOfContacts.isEmpty());
+//		assertTrue("Set of contacts var should be empty",setOfContacts.isEmpty());
+	}
+
+	@Test
+	public void getContactsIntTest(){
+		boolean exception = false;
+		try{
+			manager.getContacts((Integer)null);
+		} catch (NullPointerException e){
+			exception=true;
+		}
+		assertTrue(exception);
+		exception = false;
+
+		Set<Contact> setOfContacts = manager.getContacts(ids);
+		assertNotEquals(null, setOfContacts);
+		Contact t=null;
+		for (Contact s: setOfContacts){
+			System.out.println(s.getName());
+//			if (s.getName().equals("AAA")){
+//				exception = true;
+//				t=s;
+//			}
+		}
+//		assertTrue(exception);
+//		setOfContacts.remove(t);
+//		exception=false;
+//		for (Contact s: setOfContacts){
+//			if (s.getName().equals("AAAAAA")){
+//				exception = true;
+//				t=s;
+//			}
+//		}
+//		assertTrue(exception);
+//		setOfContacts.remove(t);
+//		assertTrue("Set of contacts var should be empty",setOfContacts.isEmpty());
 	}
 
 }
