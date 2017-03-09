@@ -68,7 +68,12 @@ public class ContactManagerImpl implements ContactManager {
 
 	@Override
 	public int addNewContact(String name, String notes) {
-		return 0;
+		if (name.isEmpty() || notes.isEmpty()) throw new IllegalArgumentException;
+		if (name == null || notes == null) throw new NullPointerException;
+		int newID = id.getContactID();
+		Contact contact = new ContactImpl(newID,name,notes);
+		contacts.add(contact);
+		return newID;
 	}
 
 	@Override
