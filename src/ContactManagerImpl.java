@@ -81,6 +81,8 @@ public class ContactManagerImpl implements ContactManager {
 		for (Contact c: contacts){
 			if (c.getName().contains(name)){
 				contact.add(c);
+			} else if (name.isEmpty()){
+				contact.add(c);
 			}
 		}
 		return contact;
