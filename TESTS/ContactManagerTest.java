@@ -28,16 +28,8 @@ public class ContactManagerTest {
 
 		exception = false;
 		try{
-			manager.addNewContact("","Notes");
-		} catch (IllegalArgumentException e){
-			exception=true;
-		}
-		assertTrue("Empty Name - Exception expected", exception);
-
-		exception = false;
-		try{
 			manager.addNewContact("D", null);
-		} catch (IllegalArgumentException e){
+		} catch (NullPointerException e){
 			exception=true;
 		}
 		assertTrue("null Date - Exception expected", exception);

@@ -68,8 +68,8 @@ public class ContactManagerImpl implements ContactManager {
 
 	@Override
 	public int addNewContact(String name, String notes) {
-		if (name.isEmpty() || notes.isEmpty()) throw new IllegalArgumentException;
-		if (name == null || notes == null) throw new NullPointerException;
+		if (name.isEmpty() || notes.isEmpty()) throw new IllegalArgumentException();
+		if (name == null || notes == null) throw new NullPointerException();
 		int newID = id.getContactID();
 		Contact contact = new ContactImpl(newID,name,notes);
 		contacts.add(contact);
