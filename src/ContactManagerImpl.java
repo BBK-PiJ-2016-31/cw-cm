@@ -1,9 +1,11 @@
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Set;
 
 /**
@@ -78,7 +80,14 @@ public class ContactManagerImpl implements ContactManager {
 
 	@Override
 	public Set<Contact> getContacts(String name) {
-		return null;
+		if (name == null) throw new NullPointerException();
+		Set<Contact> contact = new LinkedHashSet<>();
+		for (Contact c: contacts){
+			if (c.getName().contains(name)){
+				contact.add(c);
+			}
+		}
+		return contact;
 	}
 
 	@Override
