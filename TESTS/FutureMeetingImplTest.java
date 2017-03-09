@@ -2,13 +2,14 @@
  * Created by Damanjit on 26/02/2017.
  */
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class FutureMeetingImplTest {
 

@@ -1,9 +1,6 @@
 /**
  * Created by Damanjit on 09/03/2017.
  */
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.LinkedHashSet;
 import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
@@ -99,7 +96,6 @@ public class ContactManagerTest {
 
 		Set<Contact> setOfContacts = manager.getContacts(ids);
 		assertNotEquals(null, setOfContacts);
-		Contact t=null;
 		for (Contact s: setOfContacts){
 			System.out.println(s.getName());
 //			if (s.getName().equals("AAA")){
