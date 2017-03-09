@@ -69,7 +69,7 @@ public class ContactManagerImpl implements ContactManager {
 	}
 
 	@Override
-	public int addNewContact(String name, String notes) {
+	public int addNewContact(String name, String notes)throws IllegalArgumentException, NullPointerException{
 		if (name.isEmpty() || notes.isEmpty()) throw new IllegalArgumentException();
 		if (name == null || notes == null) throw new NullPointerException();
 		int newID = id.getContactID();
@@ -79,7 +79,7 @@ public class ContactManagerImpl implements ContactManager {
 	}
 
 	@Override
-	public Set<Contact> getContacts(String name) {
+	public Set<Contact> getContacts(String name)throws NullPointerException {
 		if (name == null) throw new NullPointerException();
 		Set<Contact> contact = new LinkedHashSet<>();
 		for (Contact c: contacts){
@@ -91,7 +91,7 @@ public class ContactManagerImpl implements ContactManager {
 	}
 
 	@Override
-	public Set<Contact> getContacts(int[] ids) {
+	public Set<Contact> getContacts(int[] ids) throws IllegalArgumentException, NullPointerException {
 		if (ids.length == 0 || ids == null)
 			throw new NullPointerException();
 		Set<Contact> contact = new LinkedHashSet<>();
