@@ -92,7 +92,22 @@ public class ContactManagerImpl implements ContactManager {
 
 	@Override
 	public Set<Contact> getContacts(int[] ids) {
-		return null;
+		if (ids.length == 0 || ids == null)
+			throw new NullPointerException();
+		Set<Contact> contact = new LinkedHashSet<>();
+		int idLength = ids.length;
+		for (Contact c : contacts) {
+			for (int i = 0; i < ids.length; i++) {
+				if (ids[i] == c.getId()) {
+					contact.add(c);
+					idLength--;
+					if (idLength == 0) break;
+				}
+			}
+			if (idLength == 0) break;
+		}
+		if (idLength>0) throw new IllegalArgumentException();
+		return contact;
 	}
 
 	@Override
