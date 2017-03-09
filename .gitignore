@@ -6,3 +6,5 @@
 *.class
 
 *.class
+
+out/test/CW3/MeetingImplTest.class
