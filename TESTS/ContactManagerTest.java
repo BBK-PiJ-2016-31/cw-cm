@@ -96,25 +96,12 @@ public class ContactManagerTest {
 
 		Set<Contact> setOfContacts = manager.getContacts(ids);
 		assertNotEquals(null, setOfContacts);
+		int i=0;
 		for (Contact s: setOfContacts){
-			System.out.println(s.getName());
-//			if (s.getName().equals("AAA")){
-//				exception = true;
-//				t=s;
-//			}
+			assertEquals(s.getId(),ids[i]);
+			assertEquals(s.getName(),str[i]);
+			++i;
 		}
-//		assertTrue(exception);
-//		setOfContacts.remove(t);
-//		exception=false;
-//		for (Contact s: setOfContacts){
-//			if (s.getName().equals("AAAAAA")){
-//				exception = true;
-//				t=s;
-//			}
-//		}
-//		assertTrue(exception);
-//		setOfContacts.remove(t);
-//		assertTrue("Set of contacts var should be empty",setOfContacts.isEmpty());
 	}
 
 }
