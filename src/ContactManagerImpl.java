@@ -8,7 +8,6 @@ import java.util.Set;
 
 
 public class ContactManagerImpl implements ContactManager {
-
 		@Override
 		public int addFutureMeeting(Set<Contact> contacts, Calendar date) {
 				return 0;
