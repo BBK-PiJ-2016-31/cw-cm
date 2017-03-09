@@ -13,11 +13,18 @@ public class ContactManagerTest {
 
 	ContactManager manager = new ContactManagerImpl();
 
+	@Before
+	public void setup(){
+		manager.addNewContact("AAA","note3A");
+		manager.addNewContact("BBB","note3B");
+		manager.addNewContact("CCC","note3C");
+		manager.addNewContact("AAAAAA","note6A");
+		manager.addNewContact("BBBBBB","note6B");
+		manager.addNewContact("CCCCCC","note6C");
+	}
+
 	@Test
 	public void newContactTest(){
-		manager.addNewContact("A","noteA");
-		manager.addNewContact("B","noteB");
-		manager.addNewContact("C","noteC");
 		boolean exception = false;
 		try{
 			manager.addNewContact("D","");
@@ -34,6 +41,29 @@ public class ContactManagerTest {
 		}
 		assertTrue("null Date - Exception expected", exception);
 
+	}
+
+
+	@Test
+	public void getContactsTest(){
+		boolean exception = false;
+		try{
+			manager.getContacts((String)null);
+		} catch (NullPointerException e){
+			exception=true;
+		}
+		assertTrue(exception);
+		exception = false;
+
+		Set<Contact> setOfContacts = manager.getContacts("AA");
+		for (Contact s: setOfContacts){
+			if (s.getName().equals("AAA")) exception = true;
+		}
+		assertTrue(exception);
+		for (Contact s: setOfContacts){
+			if (s.getName().equals("AAAAAA")) exception = true;
+		}
+		assertTrue(exception);
 	}
 
 }
