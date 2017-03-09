@@ -1,6 +1,8 @@
 /**
  * Created by Damanjit on 09/03/2017.
  */
+import java.util.Calendar;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +13,7 @@ public class ContactManagerTest {
 	ContactManager manager = new ContactManagerImpl();
 	int [] ids  = new int[4];
 	String[] str = new String[6];
+	Set<Contact> contactsToSend = new LinkedHashSet<>();
 
 	@Before
 	public void setup(){
@@ -102,6 +105,12 @@ public class ContactManagerTest {
 			assertEquals(s.getName(),str[i]);
 			++i;
 		}
+	}
+
+	@Test
+	public void addFutureMeetingTest(){
+		Calendar now = Calendar.getInstance();
+
 	}
 
 }
