@@ -7,6 +7,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class ContactManagerTest {
 
@@ -20,8 +21,13 @@ public class ContactManagerTest {
 				for (int i = 1; i < 10; i++) {
 						contacts.add(new ContactImpl(i,"A"+i, "Demo notes"));
 				}
-				manager.addFutureMeeting(contacts, date);
 		}
 
-		
+		@Test
+		public void futureMeetingSetGet(){
+				int id = manager.addFutureMeeting(contacts, date);
+				Meeting object = manager.getFutureMeeting(id);
+				assertEquals("Meeting IDs don't match", object.getId(),id);
+		}
+
 }
