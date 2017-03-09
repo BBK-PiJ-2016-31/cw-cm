@@ -13,14 +13,12 @@ import static org.junit.Assert.*;
 public class MeetingImplTest {
 
 		private Calendar date = new GregorianCalendar();
-		private Calendar date1 = new GregorianCalendar();
 		private Set<Contact> contacts = new LinkedHashSet<>();
 		private Meeting meeting;
 
 		@Before
 		public void createData() {
 				date.set(2017,3,1,9,33);
-				date1.set(2017,3,1,9,33);
 				for (int i = 1; i < 10; i++) {
 						contacts.add(new ContactImpl(i,"A"+i, "Demo notes"));
 				}
@@ -50,7 +48,6 @@ public class MeetingImplTest {
 		@Test
 		public void corruptingData() {
 				date.set(2017,3,1,9,33);
-				date1.set(2017,3,1,9,33);
 				for (int i = 1; i < 10; i++) {
 						contacts.add(new ContactImpl(i,"A"+i, "Demo notes"));
 				}
