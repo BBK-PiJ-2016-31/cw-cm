@@ -52,18 +52,29 @@ public class ContactManagerTest {
 		} catch (NullPointerException e){
 			exception=true;
 		}
-		assertTrue(exception);
+		assertTrue("Null Exception Expected",exception);
 		exception = false;
 
 		Set<Contact> setOfContacts = manager.getContacts("AA");
+		Contact t=null;
 		for (Contact s: setOfContacts){
-			if (s.getName().equals("AAA")) exception = true;
+			if (s.getName().equals("AAA")){
+				exception = true;
+				t=s;
+			}
 		}
 		assertTrue(exception);
+		setOfContacts.remove(t);
+		exception=false;
 		for (Contact s: setOfContacts){
-			if (s.getName().equals("AAAAAA")) exception = true;
+			if (s.getName().equals("AAAAAA")){
+				exception = true;
+				t=s;
+			}
 		}
 		assertTrue(exception);
+		setOfContacts.remove(t);
+		assertTrue("Set of contacts var should be empty",setOfContacts.isEmpty());
 	}
 
 }
