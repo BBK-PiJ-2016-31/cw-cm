@@ -1,6 +1,7 @@
 import com.sun.tools.javac.util.BasicDiagnosticFormatter.BasicConfiguration.SourcePosition;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -77,7 +78,9 @@ public class ContactManagerImpl implements ContactManager {
 	}
 
 	@Override
-	public List<Meeting> getFutureMeetingList(Contact contact) {
+	public List<Meeting> getFutureMeetingList(Contact contact) throws IllegalArgumentException, NullPointerException {
+		if (contact==null) throw new NullPointerException();
+		if (!inTheList(contact)) throw new IllegalArgumentException();
 		List<Meeting> futureMeetings = new ArrayList<>();
 		for (Meeting e: meetingsList){
 			Set<Contact> receivedContacts = e.getContacts();
@@ -88,6 +91,7 @@ public class ContactManagerImpl implements ContactManager {
 				}
 			}
 		}
+
 		return futureMeetings;
 	}
 
@@ -104,6 +108,20 @@ public class ContactManagerImpl implements ContactManager {
 	 */
 	public boolean equalsCheck(Contact A, Contact B){
 		return ((A.getId() == B.getId()) && A.getName().equals(B.getName()));
+	}
+
+	/**
+	 * Method to check if the given contact is in the existing list
+	 * @param c - Contact to be checked if is in the List
+	 * @return - true if its found in the list. False otherwise
+	 */
+	private boolean inTheList(Contact c){
+		for (Contact b:contacts){
+			if (c.getId()==b.getId()){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override

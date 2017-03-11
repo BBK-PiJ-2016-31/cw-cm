@@ -227,6 +227,7 @@ public class ContactManagerTest {
 		manager.addFutureMeeting(contactsToSend,now);
 		List<Meeting> meetingsList = manager.getFutureMeetingList(contactList.get(0));
 		assertNotEquals(null, meetingsList);
+		assertEquals(4,meetingsList.size());
 		boolean gotContact=false;
 		for (Meeting c:meetingsList){
 			Set<Contact> contact = c.getContacts();
