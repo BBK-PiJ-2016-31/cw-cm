@@ -1,4 +1,5 @@
 import com.sun.tools.javac.util.BasicDiagnosticFormatter.BasicConfiguration.SourcePosition;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -77,7 +78,7 @@ public class ContactManagerImpl implements ContactManager {
 
 	@Override
 	public List<Meeting> getFutureMeetingList(Contact contact) {
-		List<Meeting> futureMeetings = null;
+		List<Meeting> futureMeetings = new ArrayList<>();
 		for (Meeting e: meetingsList){
 			Set<Contact> receivedContacts = e.getContacts();
 			for (Contact d: receivedContacts){
