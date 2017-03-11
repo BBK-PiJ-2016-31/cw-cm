@@ -13,7 +13,6 @@ public class ContactManagerTest {
 	ContactManager manager = new ContactManagerImpl();
 	int [] ids  = new int[4];
 	String[] str = new String[6];
-	Set<Contact> contactsToSend = new LinkedHashSet<>();
 
 	@Before
 	public void setup(){
@@ -110,7 +109,20 @@ public class ContactManagerTest {
 	@Test
 	public void addFutureMeetingTest(){
 		Calendar now = Calendar.getInstance();
-
+		Set<Contact> contactsToSend = new LinkedHashSet<>();
+		for (int i = 1; i < 11; i++) {
+			contactsToSend.add(new ContactImpl(i,"A"+i, "Note "+i));
+		}
+		Integer returnedID = manager.addFutureMeeting(contactsToSend,now);
+		assertNotEquals(null, returnedID);
+		boolean exception = false;
+		try{
+			now.add(Calendar.MINUTE, -3);
+			manager.addFutureMeeting(contactsToSend,now); //Meeting in the past
+		} catch (IllegalArgumentException e) {
+			exception = true;
+		}
+		assertTrue(exception);
 	}
 
 }
