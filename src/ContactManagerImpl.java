@@ -3,6 +3,7 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import sun.util.resources.el.CalendarData_el_CY;
 
 /**
  * Created by Damanjit on 09/03/2017.
@@ -15,13 +16,31 @@ public class ContactManagerImpl implements ContactManager {
 
 	@Override
 	public int addFutureMeeting(Set<Contact> contacts, Calendar date) throws IllegalArgumentException, NullPointerException {
-//		Date date = new GregorianCalendar();
-//
-//
-//		int newID = id.getMeetingID();
-//		Meeting newMeet = new FutureMeetingImpl(newID,date,contacts);
-//		meetingsList.add(newMeet);
-		return 0; //newID;
+		// Null input check
+		if (date.equals(null) || contacts.equals(null)) throw new NullPointerException();
+		// Unknown contact check
+		boolean allMatch = false;
+		for (Contact c: contacts){
+			for (Contact d: this.contacts){
+				allMatch = false;
+				if (d.equals(c)){
+					allMatch = true;
+					break;
+				}
+			}
+			if (!allMatch) break;
+		}
+		if (!allMatch) throw new IllegalArgumentException();
+		Calendar now = Calendar.getInstance();
+		int newID;
+		date.add(Calendar.MINUTE,+1);
+		// Valid future date check
+		if (date.after(now)){
+			newID= id.getMeetingID();
+			Meeting newMeet = new FutureMeetingImpl(newID,date,contacts);
+			meetingsList.add(newMeet);
+		} else throw new IllegalArgumentException();
+		return newID;
 	}
 
 	@Override
