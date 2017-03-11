@@ -33,7 +33,6 @@ public class ContactManagerImpl implements ContactManager {
 		if (!allMatch) throw new IllegalArgumentException();
 		Calendar now = Calendar.getInstance();
 		int newID;
-		date.add(Calendar.MINUTE,+1);
 		// Valid future date check
 		if (date.after(now)){
 			newID= id.getMeetingID();

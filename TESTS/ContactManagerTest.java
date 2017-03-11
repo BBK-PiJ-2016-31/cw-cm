@@ -109,6 +109,7 @@ public class ContactManagerTest {
 	@Test
 	public void addFutureMeetingTest(){
 		Calendar now = Calendar.getInstance();
+		now.add(Calendar.HOUR,+1);
 		Set<Contact> contactsToSend = manager.getContacts("");
 		Integer returnedID = manager.addFutureMeeting(contactsToSend,now);
 		assertNotEquals(null, returnedID);
@@ -147,6 +148,6 @@ public class ContactManagerTest {
 
 	@Test
 	public void getFutureMeetingCheck(){
-		
+
 	}
 }
