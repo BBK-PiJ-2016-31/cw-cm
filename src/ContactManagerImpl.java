@@ -77,12 +77,32 @@ public class ContactManagerImpl implements ContactManager {
 
 	@Override
 	public List<Meeting> getFutureMeetingList(Contact contact) {
-		return null;
+		List<Meeting> futureMeetings = null;
+		for (Meeting e: meetingsList){
+			Set<Contact> receivedContacts = e.getContacts();
+			for (Contact d: receivedContacts){
+				if (equalsCheck(contact,d)) {
+					futureMeetings.add(e);
+					break;
+				}
+			}
+		}
+		return futureMeetings;
 	}
 
 	@Override
 	public List<Meeting> getMeetingListOn(Calendar date) {
 		return null;
+	}
+
+	/**
+	 * Method to check if two contacts are the same
+	 * @param A - First contact object
+	 * @param B - Second contact object
+	 * @return - Returns if the two objects are the same
+	 */
+	public boolean equalsCheck(Contact A, Contact B){
+		return ((A.getId() == B.getId()) && A.getName().equals(B.getName()));
 	}
 
 	@Override

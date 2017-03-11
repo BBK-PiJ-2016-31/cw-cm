@@ -1,8 +1,10 @@
 /**
  * Created by Damanjit on 09/03/2017.
  */
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,7 +12,7 @@ import static org.junit.Assert.*;
 
 public class ContactManagerTest {
 
-	ContactManager manager = new ContactManagerImpl();
+	ContactManagerImpl manager = new ContactManagerImpl();
 	int [] ids  = new int[4];
 	String[] str = new String[6];
 
@@ -89,7 +91,7 @@ public class ContactManagerTest {
 	public void getContactsIntTest(){
 		boolean exception = false;
 		try{
-			manager.getContacts((Integer)null);
+			manager.getContacts((int[]) null);
 		} catch (NullPointerException e){
 			exception=true;
 		}
@@ -158,13 +160,13 @@ public class ContactManagerTest {
 		int id1 = manager.addFutureMeeting(contactsToSend,now);
 		now = Calendar.getInstance();
 		now.add(Calendar.HOUR,+2);
-		int id2 = manager.addFutureMeeting(contactsToSend,now);
+		manager.addFutureMeeting(contactsToSend,now);
 		now = Calendar.getInstance();
 		now.add(Calendar.HOUR,+3);
-		int id3 = manager.addFutureMeeting(contactsToSend,now);
+		manager.addFutureMeeting(contactsToSend,now);
 		now = Calendar.getInstance();
 		now.add(Calendar.HOUR,+4);
-		int id4 = manager.addFutureMeeting(contactsToSend,now);
+		manager.addFutureMeeting(contactsToSend,now);
 
 		try {
 			Thread.sleep(1000);
@@ -210,5 +212,29 @@ public class ContactManagerTest {
 		assertNotEquals(null, manager.getMeeting(id4));
 	}
 
-
+	@Test
+	public void getFutureMeetingListCheck(){
+		Calendar now = Calendar.getInstance();
+		Set<Contact> contactsToSend = manager.getContacts("");
+		List<Contact> contactList = new ArrayList<>(contactsToSend);
+		now.add(Calendar.SECOND,+1);
+		manager.addFutureMeeting(contactsToSend,now);
+		now.add(Calendar.HOUR,+2);
+		manager.addFutureMeeting(contactsToSend,now);
+		now.add(Calendar.HOUR,+3);
+		manager.addFutureMeeting(contactsToSend,now);
+		now.add(Calendar.HOUR,+4);
+		manager.addFutureMeeting(contactsToSend,now);
+		List<Meeting> meetingsList = manager.getFutureMeetingList(contactList.get(0));
+		boolean gotContact=false;
+		for (Meeting c:meetingsList){
+			Set<Contact> contact = c.getContacts();
+			for (Contact check: contact){
+				gotContact= manager.equalsCheck(check,contactList.get(0));
+				if (gotContact) break;
+			}
+			assertTrue(gotContact);
+			gotContact = false;
+		}
+	}
 }
