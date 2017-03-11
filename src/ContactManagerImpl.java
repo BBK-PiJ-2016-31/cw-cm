@@ -1,8 +1,10 @@
+import com.sun.tools.javac.util.BasicDiagnosticFormatter.BasicConfiguration.SourcePosition;
 import java.util.Calendar;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.Spliterator;
 import sun.util.resources.el.CalendarData_el_CY;
 
 /**
@@ -17,7 +19,7 @@ public class ContactManagerImpl implements ContactManager {
 	@Override
 	public int addFutureMeeting(Set<Contact> contacts, Calendar date) throws IllegalArgumentException, NullPointerException {
 		// Null input check
-		if (date.equals(null) || contacts.equals(null)) throw new NullPointerException();
+		if (date == null || contacts== null) throw new NullPointerException();
 		// Unknown contact check
 		boolean allMatch = false;
 		for (Contact c: contacts){
@@ -48,8 +50,18 @@ public class ContactManagerImpl implements ContactManager {
 	}
 
 	@Override
-	public FutureMeeting getFutureMeeting(int id) {
-		return null;
+	public FutureMeeting getFutureMeeting(int id) throws IllegalStateException {
+		FutureMeeting r = null;
+		for (Meeting c:meetingsList){
+			if (c.getId()==id){	// Found meeting
+				if (c.getDate().after(Calendar.getInstance())){
+					r = (FutureMeeting) c;
+				} else {
+					throw new IllegalStateException();
+				}
+			}
+		}
+		return r;
 	}
 
 	@Override
@@ -108,7 +120,7 @@ public class ContactManagerImpl implements ContactManager {
 
 	@Override
 	public Set<Contact> getContacts(int[] ids) throws IllegalArgumentException, NullPointerException {
-		if (ids.length == 0 || ids == null)
+		if (ids.length == 0)
 			throw new NullPointerException();
 		Set<Contact> contact = new LinkedHashSet<>();
 		int idLength = ids.length;
