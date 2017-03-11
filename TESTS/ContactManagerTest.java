@@ -109,20 +109,44 @@ public class ContactManagerTest {
 	@Test
 	public void addFutureMeetingTest(){
 		Calendar now = Calendar.getInstance();
-		Set<Contact> contactsToSend = new LinkedHashSet<>();
-		for (int i = 1; i < 11; i++) {
-			contactsToSend.add(new ContactImpl(i,"A"+i, "Note "+i));
-		}
+		Set<Contact> contactsToSend = manager.getContacts("");
 		Integer returnedID = manager.addFutureMeeting(contactsToSend,now);
 		assertNotEquals(null, returnedID);
 		boolean exception = false;
-		try{
+		try{	//Add a contact not in the contactList
+			Contact extra = new ContactImpl(12345, "test");
+			contactsToSend.add(extra);
+			manager.addFutureMeeting(contactsToSend,now);
+		} catch (IllegalArgumentException e){
+			exception = true;
+		}
+		assertTrue(exception);
+		exception=false;
+		try{	// Try adding time in past
 			now.add(Calendar.MINUTE, -3);
 			manager.addFutureMeeting(contactsToSend,now); //Meeting in the past
 		} catch (IllegalArgumentException e) {
 			exception = true;
 		}
 		assertTrue(exception);
+		exception = false;
+		try{	// Try sending NULL date
+			manager.addFutureMeeting(contactsToSend,null);
+		} catch (NullPointerException e) {
+			exception = true;
+			boolean exception1 = false;
+			try{ // try sending NULL contact
+				manager.addFutureMeeting(null, now);
+			} catch (NullPointerException d){
+				exception1 = true;
+			}
+			assertTrue(exception1);
+		}
+		assertTrue(exception);
 	}
 
+	@Test
+	public void getFutureMeetingCheck(){
+		
+	}
 }
