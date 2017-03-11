@@ -113,23 +113,27 @@ public class ContactManagerTest {
 		Set<Contact> contactsToSend = manager.getContacts("");
 		Integer returnedID = manager.addFutureMeeting(contactsToSend,now);
 		assertNotEquals(null, returnedID);
+		Contact extra=null;
 		boolean exception = false;
 		try{	//Add a contact not in the contactList
-			Contact extra = new ContactImpl(12345, "test");
+			extra = new ContactImpl(12345, "test");
 			contactsToSend.add(extra);
 			manager.addFutureMeeting(contactsToSend,now);
 		} catch (IllegalArgumentException e){
 			exception = true;
 		}
 		assertTrue(exception);
+		contactsToSend.remove(extra); // remove extra contact
+
 		exception=false;
 		try{	// Try adding time in past
-			now.add(Calendar.MINUTE, -3);
+			now.add(Calendar.HOUR, -1);
 			manager.addFutureMeeting(contactsToSend,now); //Meeting in the past
 		} catch (IllegalArgumentException e) {
 			exception = true;
 		}
 		assertTrue(exception);
+
 		exception = false;
 		try{	// Try sending NULL date
 			manager.addFutureMeeting(contactsToSend,null);
@@ -148,6 +152,63 @@ public class ContactManagerTest {
 
 	@Test
 	public void getFutureMeetingCheck(){
+		Calendar now = Calendar.getInstance();
+		Set<Contact> contactsToSend = manager.getContacts("");
+		now.add(Calendar.SECOND,+1);
+		int id1 = manager.addFutureMeeting(contactsToSend,now);
+		now = Calendar.getInstance();
+		now.add(Calendar.HOUR,+2);
+		int id2 = manager.addFutureMeeting(contactsToSend,now);
+		now = Calendar.getInstance();
+		now.add(Calendar.HOUR,+3);
+		int id3 = manager.addFutureMeeting(contactsToSend,now);
+		now = Calendar.getInstance();
+		now.add(Calendar.HOUR,+4);
+		int id4 = manager.addFutureMeeting(contactsToSend,now);
 
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		assertEquals(null, manager.getFutureMeeting(123));
+		boolean exception = false;
+		try{
+			manager.getFutureMeeting(id1);
+		} catch (IllegalStateException e){
+			exception = true;
+		}
+		assertTrue(exception);
 	}
+
+	@Test
+	public void getMeetingCheck(){
+		Calendar now = Calendar.getInstance();
+		Set<Contact> contactsToSend = manager.getContacts("");
+		now.add(Calendar.SECOND,+1);
+		int id1 = manager.addFutureMeeting(contactsToSend,now);
+		now = Calendar.getInstance();
+		now.add(Calendar.HOUR,+2);
+		int id2 = manager.addFutureMeeting(contactsToSend,now);
+		now = Calendar.getInstance();
+		now.add(Calendar.HOUR,+3);
+		int id3 = manager.addFutureMeeting(contactsToSend,now);
+		now = Calendar.getInstance();
+		now.add(Calendar.HOUR,+4);
+		int id4 = manager.addFutureMeeting(contactsToSend,now);
+
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		assertEquals(null, manager.getMeeting(123));
+		assertNotEquals(null, manager.getMeeting(id1));
+		assertNotEquals(null, manager.getMeeting(id2));
+		assertNotEquals(null, manager.getMeeting(id3));
+		assertNotEquals(null, manager.getMeeting(id4));
+	}
+
+
 }
