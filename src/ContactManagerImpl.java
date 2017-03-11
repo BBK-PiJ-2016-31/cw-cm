@@ -14,7 +14,7 @@ public class ContactManagerImpl implements ContactManager {
 	private List<Contact> contacts = new LinkedList<>();
 
 	@Override
-	public int addFutureMeeting(Set<Contact> contacts, Calendar date) {
+	public int addFutureMeeting(Set<Contact> contacts, Calendar date) throws IllegalArgumentException, NullPointerException {
 //		Date date = new GregorianCalendar();
 //
 //
