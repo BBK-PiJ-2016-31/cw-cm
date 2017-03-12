@@ -2,6 +2,7 @@ import com.sun.tools.javac.util.BasicDiagnosticFormatter.BasicConfiguration.Sour
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -91,7 +92,12 @@ public class ContactManagerImpl implements ContactManager {
 				}
 			}
 		}
-
+		// SORT OUT CHRONOLOGICALLY
+		Collections.sort(futureMeetings, new Comparator<Meeting>() {
+			public int compare(Meeting m1, Meeting m2) {
+				return m1.getDate().compareTo(m2.getDate());
+			}
+		});
 		return futureMeetings;
 	}
 
