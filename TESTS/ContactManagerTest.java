@@ -221,17 +221,20 @@ public class ContactManagerTest {
 		}
 	}
 
-//	@Test
-//	public void getMeetingListOnCheck(){
-//		Calendar date = Calendar.getInstance();
-//		Date date1 = date.getTime();
-//		List<Meeting> listReceived = manager.getMeetingListOn(date);
-//		boolean match=false;
-//		for (Meeting m:listReceived){
-//			Date date2 = m.getDate().getTime();
-//			match=false;
-//			if (date1.compareTo(date2) == 0) match = true;
-//			assertTrue(match);
-//		}
-//	}
+	@Test
+	public void getMeetingListOnCheck(){
+		Calendar now = Calendar.getInstance();
+		List<Meeting> listReceived = manager.getMeetingListOn(now);
+		boolean match=false;
+		for (Meeting m:listReceived){
+			match=false;
+			if (m.getDate().get(Calendar.YEAR)== now.get(Calendar.YEAR)){
+				if (m.getDate().get(Calendar.DAY_OF_YEAR)== now.get(Calendar.DAY_OF_YEAR)){
+					match=true;
+				}
+			}
+			assertTrue(match);
+		}
+		assertEquals(4, listReceived.size());
+	}
 }
