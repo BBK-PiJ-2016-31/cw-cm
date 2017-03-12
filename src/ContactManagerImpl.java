@@ -104,8 +104,15 @@ public class ContactManagerImpl implements ContactManager {
 
 	@Override
 	public List<Meeting> getMeetingListOn(Calendar date) {
-
-		return null;
+		List<Meeting> toSend = new ArrayList<>();
+		for (Meeting m : meetingsList){
+			if (m.getDate().get(Calendar.YEAR) == date.get(Calendar.YEAR)) {
+				if (m.getDate().get(Calendar.DAY_OF_YEAR) == date.get(Calendar.DAY_OF_YEAR)) {
+					toSend.add(m);
+				}
+			}
+		}
+		return toSend;
 	}
 
 	/**
