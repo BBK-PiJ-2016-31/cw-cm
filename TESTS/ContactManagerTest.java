@@ -153,6 +153,7 @@ public class ContactManagerTest {
 
 		exception=false;
 		try{	// Try adding time in past
+            now = Calendar.getInstance();
 			now.add(Calendar.HOUR, -1);
 			manager.addFutureMeeting(contactsToSend,now); //Meeting in the past
 		} catch (IllegalArgumentException e) {
@@ -261,7 +262,60 @@ public class ContactManagerTest {
 	}
 
 	@Test
-	public void addNewPastMeetingCheck(){
+	public void addNewPastMeetingCheck() {
+        Calendar now = Calendar.getInstance();
+        now.add(Calendar.HOUR,-1);
+        Set<Contact> contactsToSend = manager.getContacts("");
+        Integer returnedID = manager.addNewPastMeeting(contactsToSend,now,"Notes of this meeting1");
+        assertNotEquals(null, returnedID);
+        Contact extra=null;
+        extra = new ContactImpl(12345, "test");
+        contactsToSend.add(extra);
+        boolean exception = false;
+        try{    //Add a contact not in the contactList
+            manager.addNewPastMeeting(contactsToSend,now,"Notes of this meeting2");
+        } catch (IllegalArgumentException e){
+            exception = true;
+        }
+        assertTrue(exception);
+        contactsToSend.remove(extra); // remove extra contact
 
-	}
+        exception=false;
+        try{	// Try adding time in future
+            now=Calendar.getInstance();
+            now.add(Calendar.HOUR, +1);
+            manager.addNewPastMeeting(contactsToSend,now,"Notes of this meeting3"); //Meeting in the future
+        } catch (IllegalArgumentException e) {
+            exception = true;
+        }
+        assertTrue(exception);
+
+        exception = false;
+        try {	// Try sending NULL date
+            now = Calendar.getInstance();
+            now.add(Calendar.YEAR,-1);
+            manager.addNewPastMeeting(null,now,"Notes of this meeting4");
+        } catch (NullPointerException e) {
+            exception = true;
+            boolean exception1 = false;
+            try{ // try sending NULL date
+                manager.addNewPastMeeting(contactsToSend, null,"Notes of this meeting5");
+            } catch (NullPointerException d){
+                exception1 = true;
+            }
+            assertTrue(exception1);
+        }
+        assertTrue(exception);
+    }
+
+    @Test
+    public void addMeetingNotesTest(){
+	    // Get a meeting ID
+
+        // Check the existing notes
+
+        // Add notes to the ID
+
+        // Check the new notes
+    }
 }
