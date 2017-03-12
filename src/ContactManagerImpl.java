@@ -82,12 +82,13 @@ public class ContactManagerImpl implements ContactManager {
 	public List<Meeting> getFutureMeetingList(Contact contact) throws IllegalArgumentException, NullPointerException {
 		if (contact==null) throw new NullPointerException();
 		if (!inTheList(contact)) throw new IllegalArgumentException();
+		Calendar now = Calendar.getInstance();
 		List<Meeting> futureMeetings = new ArrayList<>();
 		for (Meeting e: meetingsList){
 			Set<Contact> receivedContacts = e.getContacts();
 			for (Contact d: receivedContacts){
 				if (equalsCheck(contact,d)) {
-					futureMeetings.add(e);
+					if (e.getDate().getTime().after(now.getTime())) futureMeetings.add(e);
 					break;
 				}
 			}
@@ -103,6 +104,7 @@ public class ContactManagerImpl implements ContactManager {
 
 	@Override
 	public List<Meeting> getMeetingListOn(Calendar date) {
+
 		return null;
 	}
 
