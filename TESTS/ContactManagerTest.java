@@ -1,8 +1,11 @@
 /**
  * Created by Damanjit on 09/03/2017.
  */
+import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
+import com.sun.tools.javac.util.BasicDiagnosticFormatter.BasicConfiguration.SourcePosition;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -236,5 +239,29 @@ public class ContactManagerTest {
 			assertTrue(match);
 		}
 		assertEquals(4, listReceived.size());
+
+		// add meeting in future and check.
+		now=Calendar.getInstance();
+		now.add(Calendar.MONTH, +1);
+		manager.addFutureMeeting(contactsToSend,now);
+		now=Calendar.getInstance();
+		now.add(Calendar.YEAR,+1);
+		listReceived = manager.getMeetingListOn(now);
+		match=false;
+		for (Meeting m:listReceived){
+			match=false;
+			if (m.getDate().get(Calendar.YEAR)== now.get(Calendar.YEAR)){
+				if (m.getDate().get(Calendar.DAY_OF_YEAR)== now.get(Calendar.DAY_OF_YEAR)){
+					match=true;
+				}
+			}
+			assertTrue(match);
+		}
+		assertEquals(Collections.emptyList(),listReceived);
+	}
+
+	@Test
+	public void addPastMeetingCheck(){
+
 	}
 }
