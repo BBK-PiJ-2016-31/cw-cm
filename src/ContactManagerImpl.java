@@ -93,6 +93,16 @@ public class ContactManagerImpl implements ContactManager {
 				}
 			}
 		}
+		return sortChorologically(futureMeetings);
+
+	}
+
+	/**
+	 * Method to sort meeting list in Chronological order
+	 * @param futureMeetings - list of meeting
+	 * @return - sorted list
+	 */
+	public List<Meeting> sortChorologically(List<Meeting> futureMeetings){
 		// SORT OUT CHRONOLOGICALLY
 		Collections.sort(futureMeetings, new Comparator<Meeting>() {
 			public int compare(Meeting m1, Meeting m2) {
@@ -103,15 +113,17 @@ public class ContactManagerImpl implements ContactManager {
 	}
 
 	@Override
-	public List<Meeting> getMeetingListOn(Calendar date) {
+	public List<Meeting> getMeetingListOn(Calendar date) throws NullPointerException {
+		if (date==null) throw new NullPointerException();
 		List<Meeting> toSend = new ArrayList<>();
 		for (Meeting m : meetingsList){
-			if (m.getDate().get(Calendar.YEAR) == date.get(Calendar.YEAR)) {
+				if (m.getDate().get(Calendar.YEAR) == date.get(Calendar.YEAR)) {
 				if (m.getDate().get(Calendar.DAY_OF_YEAR) == date.get(Calendar.DAY_OF_YEAR)) {
 					toSend.add(m);
 				}
 			}
 		}
+		if (toSend.size()>1) return(sortChorologically(toSend));
 		return toSend;
 	}
 
