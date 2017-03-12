@@ -1,19 +1,20 @@
+import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
 /**
  * Created by Damanjit on 09/03/2017.
  */
-public class Idgenerator {
+public class IdGenerator {
     private Set<Integer> meetingId = new TreeSet<>();
     private Set<Integer> contactId = new TreeSet<>();
-
+    private Random numGen = new Random();
     /** Creates a Unique & Random meeting ID.
      * @return ID
      */
     public int getMeetingId() {
-        int id = (int) (Math.random() * 1000000000);
-        if (meetingId.contains(id)) {
+        int id = numGen.nextInt(2147483647);
+        if (id == 0 || meetingId.contains(id)) {
             getMeetingId();
         } else {
             meetingId.add(id);
@@ -22,12 +23,11 @@ public class Idgenerator {
     }
 
     /** Creates a Unique & Random Contact ID.
-     *
      * @return ID
      */
     public int getContactId() {
-        int id = (int) (Math.random() * 1000000000);
-        if (contactId.contains(id)) {
+        int id = numGen.nextInt(2147483647);
+        if (id == 0 || contactId.contains(id)) {
             getContactId();
         } else {
             contactId.add(id);
