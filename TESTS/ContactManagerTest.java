@@ -261,7 +261,7 @@ public class ContactManagerTest {
 	}
 
 	@Test
-	public void addPastMeetingCheck(){
+	public void addNewPastMeetingCheck(){
 
 	}
 }

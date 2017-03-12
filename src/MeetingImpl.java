@@ -14,11 +14,11 @@ public abstract class MeetingImpl implements Meeting {
      * @param id  - Id of the meeting object
      * @param date - Date of the meeting
      * @param contacts  - Set of contacts which will take part in the meeting
-     * @throws IllegalArgumentException if the contact set is empty or the date is less than or equal to zero
+     * @throws IllegalArgumentException if the contact set is empty or the date
      * @throws NullPointerException if the user sends null Date
      */
     public MeetingImpl(int id, Calendar date, Set<Contact> contacts) {
-        if (contacts==null || contacts.isEmpty() || id<=0) {
+        if (contacts == null || contacts.isEmpty() || id <= 0) {
             throw new IllegalArgumentException();
         }
         if (date == null) {
