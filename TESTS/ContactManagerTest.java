@@ -3,6 +3,7 @@
  */
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,6 +16,10 @@ public class ContactManagerTest {
 	ContactManagerImpl manager = new ContactManagerImpl();
 	int [] ids  = new int[4];
 	String[] str = new String[6];
+	int id1, id2, id3, id4;
+	Calendar now;
+	Set<Contact> contactsToSend;
+	List<Contact> contactList;
 
 	@Before
 	public void setup(){
@@ -31,6 +36,22 @@ public class ContactManagerTest {
 		ids[3] = manager.addNewContact(str[3],"note6A");
 		manager.addNewContact(str[4],"note6B");
 		manager.addNewContact(str[5],"note6C");
+
+		now = Calendar.getInstance();
+		contactsToSend = manager.getContacts("");
+		contactList = new ArrayList<>(contactsToSend);
+		now = Calendar.getInstance();
+		now.add(Calendar.MINUTE,+9);
+		id2 = manager.addFutureMeeting(contactsToSend,now);
+		now = Calendar.getInstance();
+		now.add(Calendar.MINUTE,+4);
+		id3 = manager.addFutureMeeting(contactsToSend,now);
+		now = Calendar.getInstance();
+		now.add(Calendar.MINUTE,+6);
+		id4 = manager.addFutureMeeting(contactsToSend,now);
+		now = Calendar.getInstance();
+		now.add(Calendar.SECOND,+1);
+		id1 = manager.addFutureMeeting(contactsToSend,now);
 	}
 
 	@Test
@@ -154,26 +175,11 @@ public class ContactManagerTest {
 
 	@Test
 	public void getFutureMeetingCheck(){
-		Calendar now = Calendar.getInstance();
-		Set<Contact> contactsToSend = manager.getContacts("");
-		now.add(Calendar.SECOND,+1);
-		int id1 = manager.addFutureMeeting(contactsToSend,now);
-		now = Calendar.getInstance();
-		now.add(Calendar.HOUR,+2);
-		manager.addFutureMeeting(contactsToSend,now);
-		now = Calendar.getInstance();
-		now.add(Calendar.HOUR,+3);
-		manager.addFutureMeeting(contactsToSend,now);
-		now = Calendar.getInstance();
-		now.add(Calendar.HOUR,+4);
-		manager.addFutureMeeting(contactsToSend,now);
-
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
 		assertEquals(null, manager.getFutureMeeting(123));
 		boolean exception = false;
 		try{
@@ -186,25 +192,6 @@ public class ContactManagerTest {
 
 	@Test
 	public void getMeetingCheck(){
-		Calendar now = Calendar.getInstance();
-		Set<Contact> contactsToSend = manager.getContacts("");
-		now.add(Calendar.SECOND,+1);
-		int id1 = manager.addFutureMeeting(contactsToSend,now);
-		now = Calendar.getInstance();
-		now.add(Calendar.HOUR,+2);
-		int id2 = manager.addFutureMeeting(contactsToSend,now);
-		now = Calendar.getInstance();
-		now.add(Calendar.HOUR,+3);
-		int id3 = manager.addFutureMeeting(contactsToSend,now);
-		now = Calendar.getInstance();
-		now.add(Calendar.HOUR,+4);
-		int id4 = manager.addFutureMeeting(contactsToSend,now);
-
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		assertEquals(null, manager.getMeeting(123));
 		assertNotEquals(null, manager.getMeeting(id1));
 		assertNotEquals(null, manager.getMeeting(id2));
@@ -214,17 +201,6 @@ public class ContactManagerTest {
 
 	@Test
 	public void getFutureMeetingListCheck(){
-		Calendar now = Calendar.getInstance();
-		Set<Contact> contactsToSend = manager.getContacts("");
-		List<Contact> contactList = new ArrayList<>(contactsToSend);
-		now.add(Calendar.SECOND,+1);
-		manager.addFutureMeeting(contactsToSend,now);
-		now.add(Calendar.HOUR,+2);
-		manager.addFutureMeeting(contactsToSend,now);
-		now.add(Calendar.HOUR,+3);
-		manager.addFutureMeeting(contactsToSend,now);
-		now.add(Calendar.HOUR,+4);
-		manager.addFutureMeeting(contactsToSend,now);
 		List<Meeting> meetingsList = manager.getFutureMeetingList(contactList.get(0));
 		assertNotEquals(null, meetingsList);
 		assertEquals(4,meetingsList.size());
@@ -237,6 +213,20 @@ public class ContactManagerTest {
 			}
 			assertTrue(gotContact);
 			gotContact = false;
+		}
+	}
+
+	@Test
+	public void getMeetingListOnCheck(){
+		Calendar date = Calendar.getInstance();
+		Date date1 = date.getTime();
+		List<Meeting> listReceived = manager.getMeetingListOn(date);
+		boolean match=false;
+		for (Meeting m:listReceived){
+			Date date2 = m.getDate().getTime();
+			match=false;
+			if (date1.compareTo(date2) == 0) match = true;
+			assertTrue(match);
 		}
 	}
 }
