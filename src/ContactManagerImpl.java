@@ -12,7 +12,7 @@ import java.util.Set;
  */
 
 public class ContactManagerImpl implements ContactManager {
-    private Idgenerator id = new Idgenerator();
+    private IdGenerator id = new IdGenerator();
     private List<Meeting> meetingsList = new LinkedList<>();
     private List<Contact> contacts = new LinkedList<>();
 
@@ -25,30 +25,19 @@ public class ContactManagerImpl implements ContactManager {
         // Unknown contact check
         boolean allMatch = false;
         for (Contact c: contacts) {
-            for (Contact d: this.contacts) {
-                allMatch = false;
-                if (d.equals(c)) {
-                    allMatch = true;
-                    break;
-                }
-            }
+            allMatch = inTheList(c);
             if (!allMatch) {
-                break;
+                throw new IllegalArgumentException();
             }
-        }
-        if (!allMatch) {
-            throw new IllegalArgumentException();
         }
         Calendar now = Calendar.getInstance();
-        int newId;
         // Valid future date check
-        if (date.after(now)) {
-            newId = id.getMeetingId();
-            Meeting newMeet = new FutureMeetingImpl(newId,date,contacts);
-            meetingsList.add(newMeet);
-        } else {
+        if (date.before(now)) {
             throw new IllegalArgumentException();
         }
+        int newId = id.getMeetingId();
+        Meeting newMeet = new FutureMeetingImpl(newId,date,contacts);
+        meetingsList.add(newMeet);
         return newId;
     }
 
@@ -172,9 +161,28 @@ public class ContactManagerImpl implements ContactManager {
     }
 
     @Override
-    public int addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) {
+    public int addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) throws IllegalArgumentException, NullPointerException {
+        Calendar now = Calendar.getInstance();
 
-        return 0;
+        // Null input check
+        if (date == null || contacts == null || text == null) {
+            throw new NullPointerException();
+        }
+        // Check for contact size & date validity
+        if (contacts.size() == 0 || date.getTime().after(now.getTime())) {
+            throw new IllegalArgumentException();
+        }
+        // Unknown contact check
+        for (Contact c: contacts) {
+            boolean match = inTheList(c);
+            if (!match) {
+                throw new IllegalArgumentException();
+            }
+        }
+        // Setup the new Past Meeting now
+        int newId = id.getMeetingId();
+        meetingsList.add(new PastMeetingImpl(newId,date,contacts,text));
+        return newId;
     }
 
     @Override
@@ -184,11 +192,11 @@ public class ContactManagerImpl implements ContactManager {
 
     @Override
     public int addNewContact(String name, String notes)throws IllegalArgumentException, NullPointerException {
-        if (name.isEmpty() || notes.isEmpty()) {
-            throw new IllegalArgumentException();
-        }
         if (name == null || notes == null) {
             throw new NullPointerException();
+        }
+        if (name.isEmpty() || notes.isEmpty()) {
+            throw new IllegalArgumentException();
         }
         int newId = id.getContactId();
         Contact contact = new ContactImpl(newId,name,notes);
