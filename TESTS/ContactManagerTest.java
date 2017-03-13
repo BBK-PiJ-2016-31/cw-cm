@@ -263,7 +263,7 @@ public class ContactManagerTest {
 
 	@Test
 	public void addNewPastMeetingCheck() {
-        Calendar now = Calendar.getInstance();
+        now = Calendar.getInstance();
         now.add(Calendar.HOUR,-1);
         Set<Contact> contactsToSend = manager.getContacts("");
         Integer returnedID = manager.addNewPastMeeting(contactsToSend,now,"Notes of this meeting1");
@@ -311,11 +311,17 @@ public class ContactManagerTest {
     @Test
     public void addMeetingNotesTest(){
 	    // Get a meeting ID
+        now = Calendar.getInstance();
+        now.add(Calendar.MONTH,-1);
+        String notes = "Test Notes: ";
+        int id = manager.addNewPastMeeting(contactsToSend,now,notes);
 
         // Check the existing notes
-
+        PastMeeting m = (PastMeeting) manager.getMeeting(id);
+        assertEquals(notes, m.getNotes());
         // Add notes to the ID
-
+        m = manager.addMeetingNotes(id, "More Notes:");
         // Check the new notes
+        assertEquals("Test Notes: More Notes:", m.getNotes());
     }
 }
