@@ -1,7 +1,9 @@
-/**
+package test; /**
  * Created by Damanjit on 28/01/2017.
  */
 
+import impl.ContactImpl;
+import spec.Contact;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;

@@ -1,4 +1,4 @@
-/**
+package test; /**
  * Created by Damanjit on 09/03/2017.
  */
 import java.util.ArrayList;
@@ -6,6 +6,11 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import impl.ContactImpl;
+import impl.ContactManagerImpl;
+import spec.Contact;
+import spec.Meeting;
+import spec.PastMeeting;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;

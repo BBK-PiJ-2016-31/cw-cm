@@ -1,3 +1,7 @@
+package impl;
+
+import spec.Contact;
+
 public class ContactImpl implements Contact {
 
     private String name;

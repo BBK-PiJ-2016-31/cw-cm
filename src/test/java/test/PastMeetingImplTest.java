@@ -1,29 +1,34 @@
-/**
+package test; /**
  * Created by Damanjit on 26/02/2017.
  */
-
-import static org.junit.Assert.assertEquals;
-
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import impl.ContactImpl;
+import impl.PastMeetingImpl;
+import spec.Contact;
+import spec.Meeting;
+import impl.MeetingImplMock;
+import spec.PastMeeting;
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
-public class MeetingImplTest {
+public class PastMeetingImplTest {
 
 		private Calendar date = new GregorianCalendar();
 		private Set<Contact> contacts = new LinkedHashSet<>();
 		private Meeting meeting;
+		private String notes = "Meeting notes";
 
 		@Before
-		public void createData() {
+		public void testConstructor() {
 				date.set(2017,3,1,9,33);
 				for (int i = 1; i < 10; i++) {
 						contacts.add(new ContactImpl(i,"A"+i, "Demo notes"));
 				}
-				meeting = new MeetingImplMock(1234,date,this.contacts );
+				meeting = new PastMeetingImpl(1234,date,this.contacts,notes);
 		}
 
 		@Test
@@ -34,6 +39,12 @@ public class MeetingImplTest {
 						assertEquals("IDs don't match", contact.getId(), i);
 						i++;
 				}
+		}
+
+		@Test
+		public void testNotes(){
+				String notes = ((PastMeeting)meeting).getNotes();
+				assertEquals("Notes don't match", this.notes, notes);
 		}
 
 		@Test
@@ -52,36 +63,47 @@ public class MeetingImplTest {
 				for (int i = 1; i < 10; i++) {
 						contacts.add(new ContactImpl(i,"A"+i, "Demo notes"));
 				}
+				boolean thrown = false;
 				try{
-						System.out.print("1) \t\tInserting null Date - \t\t\t");
 						meeting = new MeetingImplMock(1234,null,this.contacts );
-				} catch (NullPointerException e){
-						System.out.println("1) NullPointerException generated");
+				} catch (NullPointerException e) {
+							thrown=true;
 				}
+				assertTrue("NullPointerException expected with NULL Date Object ",thrown);
+
 				try{
-						System.out.print("2) \t\tInserting null Contacts - \t");
+						thrown = false;
 						meeting = new MeetingImplMock(1234,date,null );
 				} catch (IllegalArgumentException e){
-						System.out.println("2) IllegalArgumentException Generated");
+						thrown = true;
 				}
+
+                 assertTrue("IllegalArgumentException expected with NULL Contact Object ",thrown);
+
 				try{
-						System.out.print("2.1)\tInserting Empty Contacts - \t");
+						thrown = false;
 						meeting = new MeetingImplMock(1234,date,new LinkedHashSet<Contact>() );
 				} catch (IllegalArgumentException e){
-						System.out.println("2.1) IllegalArgumentException Generated");
+						thrown = true;
 				}
+
+                 assertTrue("IllegalArgumentException expected with EMPTY Contact Object ",thrown);
+
 				try{
-						System.out.print("3) \t\tInserting -Ve ID - \t\t\t\t\t");
+						thrown = false;
 						meeting = new MeetingImplMock(-1234,date,this.contacts );
 				} catch (IllegalArgumentException e){
-						System.out.println("3) IllegalArgumentException Generated");
+						thrown = true;
 				}
+				assertTrue("IllegalArgumentException expected with -Ve ID ",thrown);
+
 				try{
-						System.out.print("4) \t\tInserting ZERO ID - \t\t\t\t");
+						thrown = false;
 						meeting = new MeetingImplMock(0,date,this.contacts );
 				} catch (IllegalArgumentException e){
-						System.out.println("4) IllegalArgumentException Generated");
+						thrown = true;
 				}
+				assertTrue("IllegalArgumentException expected with ZERO ID ",thrown);
 		}
 
 }

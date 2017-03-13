@@ -1,3 +1,5 @@
+package impl;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -6,6 +8,12 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import spec.Contact;
+import spec.ContactManager;
+import spec.FutureMeeting;
+import spec.IdGenerator;
+import spec.Meeting;
+import spec.PastMeeting;
 
 /**
  * Created by Damanjit on 09/03/2017.

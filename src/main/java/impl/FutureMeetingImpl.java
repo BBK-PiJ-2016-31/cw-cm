@@ -1,9 +1,11 @@
-/**
+package impl; /**
  * Created by Damanjit on 26/02/2017.
  */
 
 import java.util.Calendar;
 import java.util.Set;
+import spec.Contact;
+import spec.FutureMeeting;
 
 public class FutureMeetingImpl extends MeetingImpl implements FutureMeeting {
 
