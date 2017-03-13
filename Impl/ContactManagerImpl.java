@@ -191,9 +191,12 @@ public class ContactManagerImpl implements ContactManager {
         PastMeetingImpl meet = null;
         for (Meeting m : meetingsList){
             if (m.getId() == id){
-                meet = (PastMeetingImpl)m;
-                meet.addNotes(text);
-                break;
+                Calendar now = Calendar.getInstance();
+                if ((m.getDate().getTime()).before(now.getTime())){
+                    meet = (PastMeetingImpl)m;
+                    meet.addNotes(text);
+                    break;
+                }
             }
         }
         return meet;

@@ -1,13 +1,9 @@
 /**
  * Created by Damanjit on 09/03/2017.
  */
-import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
-import com.sun.tools.javac.util.BasicDiagnosticFormatter.BasicConfiguration.SourcePosition;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import org.junit.Before;
@@ -310,7 +306,7 @@ public class ContactManagerTest {
 
     @Test
     public void addMeetingNotesTest(){
-	    // Get a meeting ID
+	    // Get a meeting ID for a known past Meeting
         now = Calendar.getInstance();
         now.add(Calendar.MONTH,-1);
         String notes = "Test Notes: ";
@@ -323,5 +319,12 @@ public class ContactManagerTest {
         m = manager.addMeetingNotes(id, "More Notes:");
         // Check the new notes
         assertEquals("Test Notes: More Notes:", m.getNotes());
+
+        try{ // So ID1 becomes a past meeting
+            Thread.sleep(1000);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        m = manager.addMeetingNotes(id1, notes);
     }
 }
