@@ -1,0 +1,36 @@
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'findbugs'
+apply plugin: 'application'
+apply plugin: 'pmd'
+apply plugin: 'checkstyle'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+        mavenCentral()
+}
+
+dependencies {
+        testCompile 'junit:junit:4.12'
+}
+
+tasks.withType(FindBugs) {
+        reports {
+                    xml.enabled false
+                            html.enabled true
+                                }
+}
+
+checkstyle {
+        toolVersion = "7.6"
+            configFile = file("${project.rootDir}/config/checkstyle/checkstyle.xml")
+}
+
+tasks.withType(Checkstyle) {
+        reports {
+                    xml.enabled false
+                            html.enabled true
+                                }
+}

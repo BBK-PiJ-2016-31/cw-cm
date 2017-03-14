@@ -1,0 +1,5 @@
+@1) 		Inserting null Date - 			1) NullPointerException generated
+F2) 		Inserting null Contacts - 	2) IllegalArgumentException Generated
+I2.1)	Inserting Empty Contacts - 	2.1) IllegalArgumentException Generated
+C3) 		Inserting -Ve ID - 					3) IllegalArgumentException Generated
+C4) 		Inserting ZERO ID - 				4) IllegalArgumentException Generated

@@ -325,11 +325,30 @@ public class ContactManagerTest {
         // Check the new notes
         assertEquals("Test Notes: More Notes:", m.getNotes());
 
+        m = manager.addMeetingNotes(id, "More Notes:");
+        // Check the new notes
+        assertEquals("Test Notes: More Notes:More Notes:", m.getNotes());
+
+        m = manager.addMeetingNotes(id, "More Notes:");
+        // Check the new notes
+        assertEquals("Test Notes: More Notes:More Notes:More Notes:", m.getNotes());
+
         try{ // So ID1 becomes a past meeting
             Thread.sleep(1000);
         } catch (Exception e){
             e.printStackTrace();
         }
         m = manager.addMeetingNotes(id1, notes);
+        assertEquals("Test Notes: ", m.getNotes());
+
+        m = manager.addMeetingNotes(id1, notes);
+        assertEquals("Test Notes: Test Notes: ", m.getNotes());
+
+        m = manager.addMeetingNotes(id1, notes);
+        assertEquals("Test Notes: Test Notes: Test Notes: ", m.getNotes());
+
+        m = manager.addMeetingNotes(id1, notes);
+        assertEquals("Test Notes: Test Notes: Test Notes: Test Notes: ", m.getNotes());
+
     }
 }

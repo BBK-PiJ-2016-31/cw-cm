@@ -75,6 +75,7 @@ public class ContactManagerImpl implements ContactManager {
         for (Meeting c:meetingsList) {
             if (c.getId() == id) {  // Found meeting
                 r = c;
+                break;
             }
         }
         return r;
@@ -194,20 +195,41 @@ public class ContactManagerImpl implements ContactManager {
     }
 
     @Override
-    public PastMeeting addMeetingNotes(int id, String text) throws IllegalArgumentException, IllegalStateException, NullPointerException {
-//        throw new IllegalArgumentException();
-        PastMeetingImpl meet = null;
+    public PastMeeting addMeetingNotes(int id, String text) throws IllegalArgumentException, IllegalStateException, NullPointerException, ClassCastException {
+        if (text==null){
+            throw new NullPointerException();
+        }
+        PastMeeting pastMeetingToReturn = null;
+        Meeting meetingToReturn = null;
+        boolean delete = false, found = false;
         for (Meeting m : meetingsList){
             if (m.getId() == id){
+                found = true;
                 Calendar now = Calendar.getInstance();
                 if ((m.getDate().getTime()).before(now.getTime())){
-                    meet = (PastMeetingImpl)m;
-                    meet.addNotes(text);
+                    try {
+                        meetingToReturn = m;
+                        ((PastMeetingImpl)m).addNotes(text);
+                    } catch (ClassCastException e){
+                        PastMeeting meet = new PastMeetingImpl(m.getId(),m.getDate(),m.getContacts(),text);
+                        meetingsList.add(meet);
+                        delete = true;
+                        pastMeetingToReturn = meet;
+                    }
                     break;
+                } else {
+                    throw new IllegalStateException();
                 }
             }
         }
-        return meet;
+        if (!found) {
+            throw new IllegalArgumentException();
+        }
+        if (delete) {
+            meetingsList.remove(meetingToReturn);
+            return pastMeetingToReturn;
+        }
+        return (PastMeeting)meetingToReturn;
     }
 
     @Override
