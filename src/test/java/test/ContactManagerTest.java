@@ -351,4 +351,22 @@ public class ContactManagerTest {
         assertEquals("Test Notes: Test Notes: Test Notes: Test Notes: ", m.getNotes());
 
     }
+
+    @Test
+    public void getPastMeetingCheck(){
+        try{
+            Thread.sleep(1000);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        PastMeeting meet = manager.getPastMeeting(id1);
+        assertEquals(meet.getId(), id1);
+
+        try{
+            meet = manager.getPastMeeting(id2); // Future meeting
+        } catch (IllegalStateException e){
+            System.out.println("Future meeting error");
+        }
+        
+    }
 }
