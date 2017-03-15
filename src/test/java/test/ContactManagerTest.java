@@ -355,12 +355,15 @@ public class ContactManagerTest {
     @Test
     public void getPastMeetingCheck(){
         try{
-            Thread.sleep(1000);
+            Thread.sleep(1100);
         } catch (Exception e){
             e.printStackTrace();
         }
         PastMeeting meet = manager.getPastMeeting(id1);
         assertEquals(meet.getId(), id1);
+
+        PastMeeting meet1 = manager.getPastMeeting(id1);
+        assertEquals(meet1.getId(), id1);
 
         try{
             meet = manager.getPastMeeting(id2); // Future meeting
@@ -371,5 +374,10 @@ public class ContactManagerTest {
         meet = manager.getPastMeeting(123);
         assertEquals(null, meet);
 
+    }
+
+    @Test
+    public void getPastMeetingListForCheck(){
+        
     }
 }
