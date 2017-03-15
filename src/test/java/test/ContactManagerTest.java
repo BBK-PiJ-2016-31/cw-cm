@@ -367,6 +367,9 @@ public class ContactManagerTest {
         } catch (IllegalStateException e){
             System.out.println("Future meeting error");
         }
-        
+
+        meet = manager.getPastMeeting(123);
+        assertEquals(null, meet);
+
     }
 }
