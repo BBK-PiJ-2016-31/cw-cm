@@ -51,7 +51,32 @@ public class ContactManagerImpl implements ContactManager {
 
     @Override
     public PastMeeting getPastMeeting(int id) {
-        return null;
+        PastMeeting meeting = null;
+        boolean delete = false;
+        Meeting del = null;
+        for (Meeting m: meetingsList){
+            if (m.getId()==id){
+                Calendar now = Calendar.getInstance();
+                if (m.getDate().getTime().after(now.getTime())){
+                    throw new IllegalStateException();
+                }
+                try{
+                    meeting = (PastMeeting) m;
+                    break;
+                } catch (ClassCastException e){
+                    PastMeetingImpl me = new PastMeetingImpl(m.getId(),m.getDate(),m.getContacts(),"");
+                    meeting = (PastMeeting)me;
+                    meetingsList.add(meeting);
+                    delete = true;
+                    del = m;
+                    break;
+                }
+            }
+        }
+        if (delete) {
+            meetingsList.remove(del);
+        }
+        return meeting;
     }
 
     @Override
