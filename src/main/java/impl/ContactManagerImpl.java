@@ -11,7 +11,6 @@ import java.util.Set;
 import spec.Contact;
 import spec.ContactManager;
 import spec.FutureMeeting;
-import spec.IdGenerator;
 import spec.Meeting;
 import spec.PastMeeting;
 
@@ -54,16 +53,16 @@ public class ContactManagerImpl implements ContactManager {
         PastMeeting meeting = null;
         boolean delete = false;
         Meeting del = null;
-        for (Meeting m: meetingsList){
-            if (m.getId()==id){
+        for (Meeting m: meetingsList) {
+            if (m.getId() == id) {
                 Calendar now = Calendar.getInstance();
-                if (m.getDate().getTime().after(now.getTime())){
+                if (m.getDate().getTime().after(now.getTime())) {
                     throw new IllegalStateException();
                 }
-                try{
+                try {
                     meeting = (PastMeeting) m;
                     break;
-                } catch (ClassCastException e){
+                } catch (ClassCastException e) {
                     PastMeetingImpl me = new PastMeetingImpl(m.getId(),m.getDate(),m.getContacts(),"");
                     meeting = (PastMeeting)me;
                     meetingsList.add(meeting);
@@ -191,24 +190,23 @@ public class ContactManagerImpl implements ContactManager {
 
     @Override
     public List<PastMeeting> getPastMeetingListFor(Contact contact) throws NullPointerException, IllegalArgumentException {
-        if (contact==null) {
+        if (contact == null) {
             throw new NullPointerException();
         }
-        if (!inTheList(contact)){
+        if (!inTheList(contact)) {
             throw new IllegalArgumentException();
         }
         List<PastMeeting> newList = new ArrayList<>();
         Calendar now = Calendar.getInstance();
         boolean delete = false;
         Meeting del = null;
-        for (Meeting m: meetingsList){
+        for (Meeting m: meetingsList) {
             if (m.getContacts().contains(contact)) {
                 if (m.getDate().getTime().before(now.getTime())) {
                     try {
                         newList.add((PastMeeting) m);
                     } catch (ClassCastException e) {
-                        PastMeeting temp = new PastMeetingImpl(m.getId(), m.getDate(),
-                         m.getContacts(), "");
+                        PastMeeting temp = new PastMeetingImpl(m.getId(), m.getDate(), m.getContacts(), "");
                         newList.add(temp);
                         meetingsList.add(temp);
                         del = m;
@@ -221,7 +219,7 @@ public class ContactManagerImpl implements ContactManager {
         if (delete) {
             meetingsList.remove(del);
         }
-        return (newList.isEmpty()? null : newList);
+        return (newList.isEmpty() ? null : newList);
     }
 
     @Override
@@ -251,21 +249,22 @@ public class ContactManagerImpl implements ContactManager {
 
     @Override
     public PastMeeting addMeetingNotes(int id, String text) throws IllegalArgumentException, IllegalStateException, NullPointerException, ClassCastException {
-        if (text==null){
+        if (text == null) {
             throw new NullPointerException();
         }
         PastMeeting pastMeetingToReturn = null;
         Meeting meetingToReturn = null;
-        boolean delete = false, found = false;
-        for (Meeting m : meetingsList){
-            if (m.getId() == id){
+        boolean delete = false;
+        boolean found = false;
+        for (Meeting m : meetingsList) {
+            if (m.getId() == id) {
                 found = true;
                 Calendar now = Calendar.getInstance();
-                if ((m.getDate().getTime()).before(now.getTime())){
+                if ((m.getDate().getTime()).before(now.getTime())) {
                     try {
                         meetingToReturn = m;
                         ((PastMeetingImpl)m).addNotes(text);
-                    } catch (ClassCastException e){
+                    } catch (ClassCastException e) {
                         PastMeeting meet = new PastMeetingImpl(m.getId(),m.getDate(),m.getContacts(),text);
                         meetingsList.add(meet);
                         delete = true;
