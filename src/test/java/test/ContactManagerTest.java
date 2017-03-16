@@ -378,9 +378,14 @@ public class ContactManagerTest {
 
     @Test
     public void getPastMeetingListForCheck(){
+        try{ // so ID1 becomes old meeting
+            Thread.sleep(1000);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         List<PastMeeting> meeting = manager.getPastMeetingListFor(contactList.get(0));
         for (Meeting m:meeting){
-            assertEquals(meeting.size(),4);
+            assertEquals(meeting.size(),1);
         }
     }
 }
