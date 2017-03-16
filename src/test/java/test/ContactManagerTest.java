@@ -1,6 +1,9 @@
-package test; /**
+/**
  * Created by Damanjit on 09/03/2017.
  */
+
+package test;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -19,6 +22,7 @@ public class ContactManagerTest {
 
 	ContactManagerImpl manager = new ContactManagerImpl();
 	int [] ids  = new int[4];
+	int [] idsNotAdded = new int[2];
 	String[] str = new String[6];
 	int id1, id2, id3, id4;
 	Calendar now;
@@ -38,8 +42,6 @@ public class ContactManagerTest {
 		ids[1] = manager.addNewContact(str[1],"note3B");
 		ids[2] = manager.addNewContact(str[2],"note3C");
 		ids[3] = manager.addNewContact(str[3],"note6A");
-		manager.addNewContact(str[4],"note6B");
-		manager.addNewContact(str[5],"note6C");
 
 		now = Calendar.getInstance();
 		contactsToSend = manager.getContacts("");
@@ -377,15 +379,24 @@ public class ContactManagerTest {
     }
 
     @Test
-    public void getPastMeetingListForCheck(){
-        try{ // so ID1 becomes old meeting
-            Thread.sleep(1000);
-        } catch (Exception e){
+    public void getPastMeetingListForCheck() {
+        try { // so ID1 becomes old meeting
+            Thread.sleep(1050);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         List<PastMeeting> meeting = manager.getPastMeetingListFor(contactList.get(0));
-        for (Meeting m:meeting){
-            assertEquals(meeting.size(),1);
+        assertEquals(meeting.size(), 1);
+
+        boolean exception = false;
+        try {
+            meeting = manager.getPastMeetingListFor(new ContactImpl(1236575, "DJ", "note6B"));
+        } catch (IllegalArgumentException e) {
+            exception = true;
         }
+        assertTrue(exception);
+//        int temp = manager.addNewContact("DJ", "NOTEs");
+//        meeting = manager.getPastMeetingListFor(new ContactImpl(123, "DJ", "Note"));
+//        assertNull(meeting);
     }
 }
