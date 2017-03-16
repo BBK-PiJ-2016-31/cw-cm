@@ -1,4 +1,4 @@
-package spec;
+package impl;
 
 import java.util.Random;
 import java.util.Set;
