@@ -378,6 +378,9 @@ public class ContactManagerTest {
 
     @Test
     public void getPastMeetingListForCheck(){
-        
+        List<PastMeeting> meeting = manager.getPastMeetingListFor(contactList.get(0));
+        for (Meeting m:meeting){
+            assertEquals(meeting.size(),4);
+        }
     }
 }
