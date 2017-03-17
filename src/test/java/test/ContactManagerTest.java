@@ -5,15 +5,20 @@
 package test;
 
 import impl.PastMeetingImpl;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import impl.ContactImpl;
 import impl.ContactManagerImpl;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Ignore;
 import spec.Contact;
+import spec.ContactManager;
 import spec.Meeting;
 import spec.PastMeeting;
 import org.junit.Before;
@@ -22,18 +27,18 @@ import static org.junit.Assert.*;
 
 public class ContactManagerTest {
 
-	ContactManagerImpl manager = new ContactManagerImpl();
-	int [] ids  = new int[12]; 		// Contact IDs
-	String[] str = new String[12]; 	// for storing names
-	int id1, id2, id3, id4; 		// For meeting IDs
-	Calendar now;					// To get and store dates
-	Set<Contact> contactSet1;		// Set of contacts 1
-	Set<Contact> contactSet2;		// Set of contacts 2
-	Set<Contact> contactSet3;		// Set of contacts 3
-	Set<Contact> contactSet4;		// Set of contacts 4
-	Set<Contact> contactSet = new LinkedHashSet<>();
-    List <Contact> contactList;		// To get and store List of contacts
-    boolean exception;              // To check exception if happened
+	private ContactManager manager = new ContactManagerImpl();
+	private int [] ids  = new int[12]; 		// Contact IDs
+	private String[] str = new String[12]; 	// for storing names
+	private int id1, id2, id3, id4; 		// For meeting IDs
+	private Calendar now;					// To get and store dates
+    private Set<Contact> contactSet1;		// Set of contacts 1
+    private Set<Contact> contactSet2;		// Set of contacts 2
+    private Set<Contact> contactSet3;		// Set of contacts 3
+    private Set<Contact> contactSet4;		// Set of contacts 4
+    private Set<Contact> contactSet = new LinkedHashSet<>();
+    private List <Contact> contactList;		// To get and store List of contacts
+    private boolean exception;              // To check exception if happened
 
 	@Before
 	public void setup(){
@@ -563,5 +568,23 @@ public class ContactManagerTest {
             exception = true;
         }
         assertTrue(exception);
+    }
+
+    @Test
+    public void flushTest(){
+        manager.flush();
+        ContactManager newManager = new ContactManagerImpl();
+        FileInputStream fis = null;
+        ObjectInputStream oin = null;
+        try {
+            fis = new FileInputStream("CMdata.ser");
+            oin = new ObjectInputStream(fis);
+            newManager = (ContactManagerImpl) oin.readObject();
+            oin.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        Set<Contact> contacts = newManager.getContacts("");
+        assertEquals(12, contacts.size());
     }
 }
