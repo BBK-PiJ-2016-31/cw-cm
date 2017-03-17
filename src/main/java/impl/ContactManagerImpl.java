@@ -1,6 +1,7 @@
 package impl;
 
-import com.sun.org.apache.bcel.internal.generic.Select;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -25,6 +26,10 @@ public class ContactManagerImpl implements ContactManager {
     private List<Meeting> meetingsList = new LinkedList<>();
     private List<Contact> contacts = new LinkedList<>();
     Calendar now;
+    FileOutputStream fos = null;
+    ObjectOutputStream ous = null;
+    String filename = "CMdata.txt";
+
 
     @Override
     public int addFutureMeeting(Set<Contact> contacts, Calendar date) throws IllegalArgumentException, NullPointerException {
@@ -342,6 +347,13 @@ public class ContactManagerImpl implements ContactManager {
 
     @Override
     public void flush() {
-
+        try {
+            fos = new FileOutputStream(filename);
+            ous = new ObjectOutputStream(fos);
+            ous.writeObject(this);
+            ous.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }
