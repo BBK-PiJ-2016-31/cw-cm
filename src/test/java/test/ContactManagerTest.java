@@ -519,10 +519,6 @@ public class ContactManagerTest {
 
         PastMeeting meet1 = manager.getPastMeeting(id1);
         assertEquals(meet1.getId(), id1);
-
-
-        meet = manager.getPastMeeting(123);
-        assertEquals(null, meet);
     }
 
     @Test
