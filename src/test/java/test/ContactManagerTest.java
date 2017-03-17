@@ -589,5 +589,6 @@ public class ContactManagerTest {
 
         contacts = newManager.getContacts("e");
         assertEquals(11,contacts.size());
+        //File with final comment---- for reference to gitHub.
     }
 }
