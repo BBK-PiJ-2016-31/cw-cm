@@ -235,10 +235,8 @@ public class ContactManagerImpl implements ContactManager, Serializable {
 
         List<PastMeeting> newList = new ArrayList<>();
         for (Meeting m: meetingsList) {
-            if (m.getContacts().contains(contact)) {
-                if (m instanceof PastMeetingImpl) {
+            if (m.getContacts().contains(contact) && m instanceof PastMeetingImpl) {
                     newList.add((PastMeeting) m);
-                }
             }
         }
         return (newList.isEmpty() ? null : newList);

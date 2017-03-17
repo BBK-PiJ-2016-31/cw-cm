@@ -3,6 +3,9 @@ package impl;
 import java.io.Serializable;
 import spec.Contact;
 
+/**
+ * Class implementing the Contact interface.
+ */
 public class ContactImpl implements Contact, Serializable {
 
     private String name;
@@ -35,7 +38,6 @@ public class ContactImpl implements Contact, Serializable {
      * @param name - Name of the contact
      * Uses the main constructor to initialise the contact.
      */
-
     public ContactImpl(int id, String name) {
         this(id, name, null);
     }
