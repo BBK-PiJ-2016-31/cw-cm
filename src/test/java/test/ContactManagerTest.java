@@ -325,7 +325,7 @@ public class ContactManagerTest {
 		for (Meeting c:meetingsList){
 			Set<Contact> contact = c.getContacts();
 			for (Contact con: contact){
-				gotContact= manager.equalsCheck(con,contactList.get(3));
+				gotContact = (con == contactList.get(3)) ? true : false ;
 				if (gotContact) break;
 			}
 			assertTrue(gotContact);
@@ -530,9 +530,9 @@ public class ContactManagerTest {
         PastMeeting m = manager.getPastMeeting(1);
         assertNull(m);
 
-        try{
+        try{ // Future meeting
             exception = false;
-            manager.getPastMeeting(id2); // Future meeting
+            manager.getPastMeeting(id2);
         } catch (IllegalStateException e){
             exception = true;
         }
@@ -546,18 +546,26 @@ public class ContactManagerTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        List<PastMeeting> meeting = manager.getPastMeetingListFor(contactList.get(0));
-        assertEquals(meeting.size(), 1);
+        now = Calendar.getInstance();
+        now.add(Calendar.SECOND,-2);
+        int returnedID = manager.addNewPastMeeting(contactSet1,now,"");
+        assertTrue(0<returnedID);
 
-        boolean exception = false;
+        // Two meetings should be there
+        List<PastMeeting> meeting = manager.getPastMeetingListFor(contactList.get(0));
+        assertEquals(2,meeting.size());
+
+        returnedID = manager.addNewPastMeeting(contactSet2,now,"");
+        assertTrue(0<returnedID);
+        meeting = manager.getPastMeetingListFor(contactList.get(3));
+        assertEquals(meeting.size(), 1); // 2nd Set will have 3rd contact
+
         try {
-            meeting = manager.getPastMeetingListFor(new ContactImpl(1236575, "DJ", "note6B"));
+            exception = false;
+            meeting = manager.getPastMeetingListFor(new ContactImpl(1236575, "DJ", "n"));
         } catch (IllegalArgumentException e) {
             exception = true;
         }
         assertTrue(exception);
-//        int temp = manager.addNewContact("DJ", "NOTEs");
-//        meeting = manager.getPastMeetingListFor(new ContactImpl(123, "DJ", "Note"));
-//        assertNull(meeting);
     }
 }
