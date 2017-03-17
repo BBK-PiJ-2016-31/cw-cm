@@ -15,6 +15,7 @@ import java.util.Set;
 import impl.ContactImpl;
 import impl.ContactManagerImpl;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Ignore;
 import spec.Contact;
 import spec.ContactManager;
@@ -26,7 +27,7 @@ import static org.junit.Assert.*;
 
 public class ContactManagerTest {
 
-	private ContactManagerImpl manager = new ContactManagerImpl();
+	private ContactManager manager = new ContactManagerImpl();
 	private int [] ids  = new int[12]; 		// Contact IDs
 	private String[] str = new String[12]; 	// for storing names
 	private int id1, id2, id3, id4; 		// For meeting IDs
@@ -572,11 +573,11 @@ public class ContactManagerTest {
     @Test
     public void flushTest(){
         manager.flush();
-        ContactManagerImpl newManager = new ContactManagerImpl();
+        ContactManager newManager = new ContactManagerImpl();
         FileInputStream fis = null;
         ObjectInputStream oin = null;
         try {
-            fis = new FileInputStream("CMdata.txt");
+            fis = new FileInputStream("CMdata.ser");
             oin = new ObjectInputStream(fis);
             newManager = (ContactManagerImpl) oin.readObject();
             oin.close();

@@ -27,10 +27,6 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     private List<Meeting> meetingsList = new LinkedList<>();
     private List<Contact> contacts = new LinkedList<>();
     Calendar now;
-    FileOutputStream fos = null;
-    ObjectOutputStream ous = null;
-    String filename = "CMdata.txt";
-
 
     @Override
     public int addFutureMeeting(Set<Contact> contacts, Calendar date) throws IllegalArgumentException, NullPointerException {
@@ -348,6 +344,10 @@ public class ContactManagerImpl implements ContactManager, Serializable {
 
     @Override
     public void flush() {
+        FileOutputStream fos = null;
+        ObjectOutputStream ous = null;
+        String filename = "CMdata.ser";
+
         try {
             fos = new FileOutputStream(filename);
             ous = new ObjectOutputStream(fos);
