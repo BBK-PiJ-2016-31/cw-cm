@@ -1,5 +1,6 @@
 package impl;
 
+import java.io.Serializable;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
@@ -7,7 +8,7 @@ import java.util.TreeSet;
 /**
  * Created by Damanjit on 09/03/2017.
  */
-public class IdGenerator {
+public class IdGenerator implements Serializable {
     private Set<Integer> meetingId = new TreeSet<>();
     private Set<Integer> contactId = new TreeSet<>();
     private Random numGen = new Random();
