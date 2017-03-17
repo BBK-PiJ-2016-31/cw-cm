@@ -171,7 +171,7 @@ public class ContactManagerImpl implements ContactManager {
      * @return - Returns if the two objects are the same
      */
     public boolean equalsCheck(Contact a, Contact b) {
-        return ((a.getId() == b.getId()) && a.getName().equals(b.getName()));
+        return ((a.getId() == b.getId()) && (a.getName().equals(b.getName())));
     }
 
     /**
@@ -231,7 +231,7 @@ public class ContactManagerImpl implements ContactManager {
             throw new NullPointerException();
         }
         // Check for contact size & date validity
-        if (contacts.size() == 0 || date.getTime().after(now.getTime())) {
+        if (contacts.isEmpty() || date.getTime().after(now.getTime())) {
             throw new IllegalArgumentException();
         }
         // Unknown contact check
@@ -317,9 +317,9 @@ public class ContactManagerImpl implements ContactManager {
     }
 
     @Override
-    public Set<Contact> getContacts(int[] ids) throws IllegalArgumentException, NullPointerException {
-        if (ids.length == 0) {
-            throw new NullPointerException();
+    public Set<Contact> getContacts(int[] ids) throws IllegalArgumentException {
+        if (ids == null || ids.length == 0) {
+            throw new IllegalArgumentException();
         }
         Set<Contact> contact = new LinkedHashSet<>();
         int idLength = ids.length;
