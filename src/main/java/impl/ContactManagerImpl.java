@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Set;
 import spec.Contact;
 import spec.ContactManager;
@@ -170,8 +172,8 @@ public class ContactManagerImpl implements ContactManager {
      * @param b - Second contact object
      * @return - Returns if the two objects are the same
      */
-    public boolean equalsCheck(Contact a, Contact b) {
-        return ((a.getId() == b.getId()) && a.getName().equals(b.getName()));
+    private boolean equalsCheck(Contact a, Contact b) {
+        return ((a.getId() == b.getId()) && (a.getName().equals(b.getName())));
     }
 
     /**
@@ -188,6 +190,25 @@ public class ContactManagerImpl implements ContactManager {
         return false;
     }
 
+    /** Method to convert FutureMeetings to PastMeetings.
+     *
+     */
+    private void sortMeetings(){
+        Calendar now = Calendar.getInstance();
+        ListIterator<Meeting> meetingIterator = meetingsList.listIterator();
+        while (meetingIterator.hasNext()){
+            Meeting m = meetingIterator.next();
+            if (m.getDate().getTime().before(now.getTime())) {
+                Calendar tempDate = m.getDate();
+                int tempID = m.getId();
+                Set<Contact> tempContact = m.getContacts();
+                if (m instanceof FutureMeetingImpl) {
+                    meetingIterator.set(new PastMeetingImpl(tempID,tempDate,tempContact,"" ));
+                }
+            }
+        }
+    }
+
     @Override
     public List<PastMeeting> getPastMeetingListFor(Contact contact) throws NullPointerException, IllegalArgumentException {
         if (contact == null) {
@@ -196,28 +217,15 @@ public class ContactManagerImpl implements ContactManager {
         if (!inTheList(contact)) {
             throw new IllegalArgumentException();
         }
+        sortMeetings();
+
         List<PastMeeting> newList = new ArrayList<>();
-        Calendar now = Calendar.getInstance();
-        boolean delete = false;
-        Meeting del = null;
         for (Meeting m: meetingsList) {
             if (m.getContacts().contains(contact)) {
-                if (m.getDate().getTime().before(now.getTime())) {
-                    try {
-                        newList.add((PastMeeting) m);
-                    } catch (ClassCastException e) {
-                        PastMeeting temp = new PastMeetingImpl(m.getId(), m.getDate(), m.getContacts(), "");
-                        newList.add(temp);
-                        meetingsList.add(temp);
-                        del = m;
-                        delete = true;
-                        break;
-                    }
+                if (m instanceof PastMeetingImpl) {
+                    newList.add((PastMeeting) m);
                 }
             }
-        }
-        if (delete) {
-            meetingsList.remove(del);
         }
         return (newList.isEmpty() ? null : newList);
     }
@@ -231,7 +239,7 @@ public class ContactManagerImpl implements ContactManager {
             throw new NullPointerException();
         }
         // Check for contact size & date validity
-        if (contacts.size() == 0 || date.getTime().after(now.getTime())) {
+        if (contacts.isEmpty() || date.getTime().after(now.getTime())) {
             throw new IllegalArgumentException();
         }
         // Unknown contact check
@@ -317,9 +325,9 @@ public class ContactManagerImpl implements ContactManager {
     }
 
     @Override
-    public Set<Contact> getContacts(int[] ids) throws IllegalArgumentException, NullPointerException {
-        if (ids.length == 0) {
-            throw new NullPointerException();
+    public Set<Contact> getContacts(int[] ids) throws IllegalArgumentException {
+        if (ids == null || ids.length == 0) {
+            throw new IllegalArgumentException();
         }
         Set<Contact> contact = new LinkedHashSet<>();
         int idLength = ids.length;
