@@ -1,10 +1,10 @@
 package impl;
 
+import com.sun.org.apache.bcel.internal.generic.Select;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,6 +24,7 @@ public class ContactManagerImpl implements ContactManager {
     private IdGenerator id = new IdGenerator();
     private List<Meeting> meetingsList = new LinkedList<>();
     private List<Contact> contacts = new LinkedList<>();
+    Calendar now;
 
     @Override
     public int addFutureMeeting(Set<Contact> contacts, Calendar date) throws IllegalArgumentException, NullPointerException {
@@ -32,67 +33,76 @@ public class ContactManagerImpl implements ContactManager {
             throw new NullPointerException();
         }
         // Unknown contact check
-        boolean allMatch = false;
-        for (Contact c: contacts) {
-            allMatch = inTheList(c);
-            if (!allMatch) {
-                throw new IllegalArgumentException();
-            }
+        if (unknownContactCheck(contacts)){
+            throw new IllegalArgumentException();
         }
-        Calendar now = Calendar.getInstance();
+
+        now = Calendar.getInstance();
         // Valid future date check
-        if (date.before(now)) {
+        if (checkDate(date) == -1) {
             throw new IllegalArgumentException();
         }
         int newId = id.getMeetingId();
-        Meeting newMeet = new FutureMeetingImpl(newId,date,contacts);
-        meetingsList.add(newMeet);
+        meetingsList.add(new FutureMeetingImpl(newId,date,contacts));
         return newId;
+    }
+
+    /**
+     * Method checks is supplied contacts exist.
+     * @param contacts - Set input of contacts
+     * @return - returns false if any one of the supplied contact is not in the list
+     */
+    private boolean unknownContactCheck(Set<Contact> contacts){
+        boolean match = false;
+        for (Contact c: contacts) {
+            match = inTheList(c);
+            if (!match) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Method to check the given date.
+     * @param date - Date to be checked.
+     * @return return 1, -1, 0 based on date in the future, past or NULL.
+     */
+    private int checkDate(Calendar date){
+        now = Calendar.getInstance();
+        if (date.getTime().after(now.getTime())){
+            return 1;
+        } else if (date.getTime().before(now.getTime())){
+            return -1;
+        } else {
+            return 0;
+        }
     }
 
     @Override
     public PastMeeting getPastMeeting(int id) {
-        PastMeeting meeting = null;
-        boolean delete = false;
-        Meeting del = null;
-        for (Meeting m: meetingsList) {
-            if (m.getId() == id) {
-                Calendar now = Calendar.getInstance();
-                if (m.getDate().getTime().after(now.getTime())) {
-                    throw new IllegalStateException();
-                }
-                try {
-                    meeting = (PastMeeting) m;
-                    break;
-                } catch (ClassCastException e) {
-                    PastMeetingImpl me = new PastMeetingImpl(m.getId(),m.getDate(),m.getContacts(),"");
-                    meeting = (PastMeeting)me;
-                    meetingsList.add(meeting);
-                    delete = true;
-                    del = m;
-                    break;
-                }
+        sortMeetings();
+        Meeting m = getMeeting(id);
+        if (m !=null) {
+            if (m instanceof FutureMeetingImpl) {
+                throw new IllegalStateException();
             }
+            return (PastMeeting) m;
         }
-        if (delete) {
-            meetingsList.remove(del);
-        }
-        return meeting;
+        return null;
     }
 
     @Override
     public FutureMeeting getFutureMeeting(int id) throws IllegalStateException {
-        FutureMeeting r = null;
-        for (Meeting c:meetingsList) {
-            if (c.getId() == id) {  // Found meeting
-                if (c.getDate().after(Calendar.getInstance())) {
-                    r = (FutureMeeting) c;
-                } else {
-                    throw new IllegalStateException();
-                }
+        sortMeetings();
+        Meeting c = getMeeting(id);
+        if (c !=null) {  // Found meeting
+            if (c instanceof PastMeetingImpl) {
+                throw new IllegalStateException();
             }
+            return (FutureMeeting) c;
         }
-        return r;
+        return null;
     }
 
     @Override
@@ -115,21 +125,23 @@ public class ContactManagerImpl implements ContactManager {
         if (!inTheList(contact)) {
             throw new IllegalArgumentException();
         }
-        Calendar now = Calendar.getInstance();
+        now = Calendar.getInstance();
         List<Meeting> futureMeetings = new ArrayList<>();
         for (Meeting e: meetingsList) {
             Set<Contact> receivedContacts = e.getContacts();
             for (Contact d: receivedContacts) {
                 if (equalsCheck(contact,d)) {
-                    if (e.getDate().getTime().after(now.getTime())) {
+                    if (checkDate(e.getDate()) == 1) {
                         futureMeetings.add(e);
                     }
                     break;
                 }
             }
         }
+        if (futureMeetings.size()<=1){
+            return futureMeetings;
+        }
         return sortChorologically(futureMeetings);
-
     }
 
     /** Sorts a List.
@@ -232,14 +244,12 @@ public class ContactManagerImpl implements ContactManager {
 
     @Override
     public int addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) throws IllegalArgumentException, NullPointerException {
-        Calendar now = Calendar.getInstance();
-
         // Null input check
         if (date == null || contacts == null || text == null) {
             throw new NullPointerException();
         }
         // Check for contact size & date validity
-        if (contacts.isEmpty() || date.getTime().after(now.getTime())) {
+        if (contacts.isEmpty() || checkDate(date) == 1) {
             throw new IllegalArgumentException();
         }
         // Unknown contact check
@@ -260,38 +270,18 @@ public class ContactManagerImpl implements ContactManager {
         if (text == null) {
             throw new NullPointerException();
         }
-        PastMeeting pastMeetingToReturn = null;
-        Meeting meetingToReturn = null;
-        boolean delete = false;
-        boolean found = false;
-        for (Meeting m : meetingsList) {
-            if (m.getId() == id) {
-                found = true;
-                Calendar now = Calendar.getInstance();
-                if ((m.getDate().getTime()).before(now.getTime())) {
-                    try {
-                        meetingToReturn = m;
-                        ((PastMeetingImpl)m).addNotes(text);
-                    } catch (ClassCastException e) {
-                        PastMeeting meet = new PastMeetingImpl(m.getId(),m.getDate(),m.getContacts(),text);
-                        meetingsList.add(meet);
-                        delete = true;
-                        pastMeetingToReturn = meet;
-                    }
-                    break;
-                } else {
-                    throw new IllegalStateException();
-                }
+        sortMeetings();
+        Meeting m = getMeeting(id);
+        if (m!=null) {
+            if (m instanceof FutureMeetingImpl){
+                throw new IllegalStateException();
+            } else {
+                ((PastMeetingImpl) m).addNotes(text);
             }
-        }
-        if (!found) {
+        } else {
             throw new IllegalArgumentException();
         }
-        if (delete) {
-            meetingsList.remove(meetingToReturn);
-            return pastMeetingToReturn;
-        }
-        return (PastMeeting)meetingToReturn;
+        return (PastMeeting)m;
     }
 
     @Override
@@ -303,8 +293,7 @@ public class ContactManagerImpl implements ContactManager {
             throw new IllegalArgumentException();
         }
         int newId = id.getContactId();
-        Contact contact = new ContactImpl(newId,name,notes);
-        contacts.add(contact);
+        contacts.add(new ContactImpl(newId,name,notes));
         return newId;
     }
 
