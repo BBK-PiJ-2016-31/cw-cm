@@ -560,7 +560,7 @@ public class ContactManagerTest {
         meeting = manager.getPastMeetingListFor(contactList.get(3));
         assertEquals(meeting.size(), 1); // 2nd Set will have 3rd contact
 
-        try {
+        try { // Unknown contact.
             exception = false;
             meeting = manager.getPastMeetingListFor(new ContactImpl(1236575, "DJ", "n"));
         } catch (IllegalArgumentException e) {
