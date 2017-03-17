@@ -278,7 +278,7 @@ public class ContactManagerTest {
 		}
         try {
 		    exception = false;
-		    Meeting m = manager.getFutureMeeting(id1);
+		    manager.getFutureMeeting(id1);
         } catch (IllegalStateException e){
 		    exception = true;
         }
@@ -563,7 +563,7 @@ public class ContactManagerTest {
 
         try { // Unknown contact.
             exception = false;
-            meeting = manager.getPastMeetingListFor(new ContactImpl(1236575, "DJ", "n"));
+            manager.getPastMeetingListFor(new ContactImpl(1236575, "DJ", "n"));
         } catch (IllegalArgumentException e) {
             exception = true;
         }
