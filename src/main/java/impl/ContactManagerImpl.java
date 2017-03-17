@@ -35,7 +35,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
             throw new NullPointerException();
         }
         // Unknown contact check
-        if (unknownContactCheck(contacts)){
+        if (unknownContactCheck(contacts)) {
             throw new IllegalArgumentException();
         }
 
@@ -54,7 +54,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
      * @param contacts - Set input of contacts
      * @return - returns false if any one of the supplied contact is not in the list
      */
-    private boolean unknownContactCheck(Set<Contact> contacts){
+    private boolean unknownContactCheck(Set<Contact> contacts) {
         boolean match = false;
         for (Contact c: contacts) {
             match = inTheList(c);
@@ -70,11 +70,11 @@ public class ContactManagerImpl implements ContactManager, Serializable {
      * @param date - Date to be checked.
      * @return return 1, -1, 0 based on date in the future, past or NULL.
      */
-    private int checkDate(Calendar date){
+    private int checkDate(Calendar date) {
         now = Calendar.getInstance();
-        if (date.getTime().after(now.getTime())){
+        if (date.getTime().after(now.getTime())) {
             return 1;
-        } else if (date.getTime().before(now.getTime())){
+        } else if (date.getTime().before(now.getTime())) {
             return -1;
         } else {
             return 0;
@@ -85,7 +85,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     public PastMeeting getPastMeeting(int id) {
         sortMeetings();
         Meeting m = getMeeting(id);
-        if (m !=null) {
+        if (m != null) {
             if (m instanceof FutureMeetingImpl) {
                 throw new IllegalStateException();
             }
@@ -98,7 +98,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     public FutureMeeting getFutureMeeting(int id) throws IllegalStateException {
         sortMeetings();
         Meeting c = getMeeting(id);
-        if (c !=null) {  // Found meeting
+        if (c != null) {  // Found meeting
             if (c instanceof PastMeetingImpl) {
                 throw new IllegalStateException();
             }
@@ -140,7 +140,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
                 }
             }
         }
-        if (futureMeetings.size()<=1){
+        if (futureMeetings.size() <= 1) {
             return futureMeetings;
         }
         return sortChorologically(futureMeetings);
@@ -207,17 +207,17 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     /** Method to convert FutureMeetings to PastMeetings.
      *
      */
-    private void sortMeetings(){
+    private void sortMeetings() {
         Calendar now = Calendar.getInstance();
         ListIterator<Meeting> meetingIterator = meetingsList.listIterator();
-        while (meetingIterator.hasNext()){
+        while (meetingIterator.hasNext()) {
             Meeting m = meetingIterator.next();
             if (m.getDate().getTime().before(now.getTime())) {
                 Calendar tempDate = m.getDate();
-                int tempID = m.getId();
+                int tempId = m.getId();
                 Set<Contact> tempContact = m.getContacts();
                 if (m instanceof FutureMeetingImpl) {
-                    meetingIterator.set(new PastMeetingImpl(tempID,tempDate,tempContact,"" ));
+                    meetingIterator.set(new PastMeetingImpl(tempId,tempDate,tempContact,""));
                 }
             }
         }
@@ -274,8 +274,8 @@ public class ContactManagerImpl implements ContactManager, Serializable {
         }
         sortMeetings();
         Meeting m = getMeeting(id);
-        if (m!=null) {
-            if (m instanceof FutureMeetingImpl){
+        if (m != null) {
+            if (m instanceof FutureMeetingImpl) {
                 throw new IllegalStateException();
             } else {
                 ((PastMeetingImpl) m).addNotes(text);

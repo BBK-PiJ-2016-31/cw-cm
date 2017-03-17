@@ -25,7 +25,7 @@ public class PastMeetingImpl extends MeetingImpl implements PastMeeting, Seriali
         return ((notes == null) ? " " : notes);
     }
 
-    public void addNotes(String notes){
+    public void addNotes(String notes) {
         this.notes += notes;
     }
 }

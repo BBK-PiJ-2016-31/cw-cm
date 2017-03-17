@@ -586,5 +586,8 @@ public class ContactManagerTest {
         }
         Set<Contact> contacts = newManager.getContacts("");
         assertEquals(12, contacts.size());
+
+        contacts = newManager.getContacts("e");
+        assertEquals(11,contacts.size());
     }
 }

@@ -12,9 +12,11 @@ public class IdGenerator implements Serializable {
     private Set<Integer> meetingId = new TreeSet<>();
     private Set<Integer> contactId = new TreeSet<>();
     private Random numGen = new Random();
+
     /** Creates a Unique & Random meeting ID.
      * @return ID
      */
+
     public int getMeetingId() {
         int id = numGen.nextInt(2147483647);
         if (id == 0 || meetingId.contains(id)) {

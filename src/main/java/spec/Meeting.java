@@ -3,10 +3,10 @@ package spec;
 import java.util.Calendar;
 import java.util.Set;
 /**
- * A class to represent meetings
- *
+ * A class to represent meetings.
  * Meetings have unique IDs, scheduled date and a list of participating contacts
  */
+
 public interface Meeting {
     /**
      * Returns the id of the meeting.
@@ -24,7 +24,6 @@ public interface Meeting {
 
     /**
      * Return the details of people that attended the meeting.
-     *
      * The list contains a minimum of one contact (if there were
      * just two people: the user and the contact) and may contain an
      * arbitrary number of them.
