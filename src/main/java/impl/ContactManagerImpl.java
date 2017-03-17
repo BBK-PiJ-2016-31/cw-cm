@@ -26,7 +26,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     private IdGenerator id = new IdGenerator();
     private List<Meeting> meetingsList = new LinkedList<>();
     private List<Contact> contacts = new LinkedList<>();
-    Calendar now;
+    Calendar now;   // For date related calculation
 
     @Override
     public int addFutureMeeting(Set<Contact> contacts, Calendar date) throws IllegalArgumentException, NullPointerException {
@@ -71,6 +71,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
      * @return return 1, -1, 0 based on date in the future, past or NULL.
      */
     private int checkDate(Calendar date) {
+        // Send 1,-1,0 depending on if DATE supplied is in future/past/null.
         now = Calendar.getInstance();
         if (date.getTime().after(now.getTime())) {
             return 1;
@@ -104,6 +105,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
             }
             return (FutureMeeting) c;
         }
+        // Return null if meeting was not found
         return null;
     }
 
@@ -129,21 +131,22 @@ public class ContactManagerImpl implements ContactManager, Serializable {
         }
         now = Calendar.getInstance();
         List<Meeting> futureMeetings = new ArrayList<>();
-        for (Meeting e: meetingsList) {
+        for (Meeting e: meetingsList) { // Get every meeting and extract contacts of it
             Set<Contact> receivedContacts = e.getContacts();
             for (Contact d: receivedContacts) {
-                if (equalsCheck(contact,d)) {
-                    if (checkDate(e.getDate()) == 1) {
-                        futureMeetings.add(e);
+                if (equalsCheck(contact,d)) { // if contact matches given contact
+                    if (checkDate(e.getDate()) == 1) { // and date is in future
+                        futureMeetings.add(e); // add to newly prepared list to be sent
                     }
-                    break;
+                    break; // No need to check the rest of the contacts
+                    // move to the next meeting
                 }
             }
         }
         if (futureMeetings.size() <= 1) {
-            return futureMeetings;
+            return futureMeetings;  // If only one meeting found
         }
-        return sortChorologically(futureMeetings);
+        return sortChorologically(futureMeetings); // else sort it before sending
     }
 
     /** Sorts a List.
@@ -167,7 +170,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
             throw new NullPointerException();
         }
         List<Meeting> toSend = new ArrayList<>();
-        for (Meeting m : meetingsList) {
+        for (Meeting m : meetingsList) { // Check YEAR and DAY of the YEAR
             if (m.getDate().get(Calendar.YEAR) == date.get(Calendar.YEAR)) {
                 if (m.getDate().get(Calendar.DAY_OF_YEAR) == date.get(Calendar.DAY_OF_YEAR)) {
                     toSend.add(m);
@@ -187,6 +190,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
      * @return - Returns if the two objects are the same
      */
     private boolean equalsCheck(Contact a, Contact b) {
+        // Check for names and ID's as a match.
         return ((a.getId() == b.getId()) && (a.getName().equals(b.getName())));
     }
 
@@ -209,15 +213,17 @@ public class ContactManagerImpl implements ContactManager, Serializable {
      */
     private void sortMeetings() {
         Calendar now = Calendar.getInstance();
+        // ListIterator used so to ammend list while Iterating (Not possible in FOR LOOP)
         ListIterator<Meeting> meetingIterator = meetingsList.listIterator();
         while (meetingIterator.hasNext()) {
-            Meeting m = meetingIterator.next();
+            Meeting m = meetingIterator.next(); // Store in m, as pointer moves to next item
             if (m.getDate().getTime().before(now.getTime())) {
                 Calendar tempDate = m.getDate();
                 int tempId = m.getId();
                 Set<Contact> tempContact = m.getContacts();
                 if (m instanceof FutureMeetingImpl) {
                     meetingIterator.set(new PastMeetingImpl(tempId,tempDate,tempContact,""));
+                    // Automatically replace the existing record with a new one by using 'set'
                 }
             }
         }
@@ -231,11 +237,11 @@ public class ContactManagerImpl implements ContactManager, Serializable {
         if (!inTheList(contact)) {
             throw new IllegalArgumentException();
         }
-        sortMeetings();
+        sortMeetings(); // Sorts meeting based on Future and Past
 
         List<PastMeeting> newList = new ArrayList<>();
         for (Meeting m: meetingsList) {
-            if (m.getContacts().contains(contact) && m instanceof PastMeetingImpl) {
+            if (m.getContacts().contains(contact) && (m instanceof PastMeetingImpl)) {
                     newList.add((PastMeeting) m);
             }
         }
@@ -270,7 +276,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
         if (text == null) {
             throw new NullPointerException();
         }
-        sortMeetings();
+        sortMeetings(); // Sorts meeting based on Future and Past
         Meeting m = getMeeting(id);
         if (m != null) {
             if (m instanceof FutureMeetingImpl) {
@@ -286,12 +292,15 @@ public class ContactManagerImpl implements ContactManager, Serializable {
 
     @Override
     public int addNewContact(String name, String notes)throws IllegalArgumentException, NullPointerException {
+        // Null input check
         if (name == null || notes == null) {
             throw new NullPointerException();
         }
+        // Empty parameter check
         if (name.isEmpty() || notes.isEmpty()) {
             throw new IllegalArgumentException();
         }
+        // Setup a new contact
         int newId = id.getContactId();
         contacts.add(new ContactImpl(newId,name,notes));
         return newId;
@@ -305,8 +314,10 @@ public class ContactManagerImpl implements ContactManager, Serializable {
         Set<Contact> contact = new LinkedHashSet<>();
         for (Contact c: contacts) {
             if (c.getName().contains(name)) {
+                // If name is there then add to list
                 contact.add(c);
             } else if (name.isEmpty()) {
+                // If empty string comes - ADD ALL CONTACTS
                 contact.add(c);
             }
         }
@@ -320,8 +331,9 @@ public class ContactManagerImpl implements ContactManager, Serializable {
         }
         Set<Contact> contact = new LinkedHashSet<>();
         int idLength = ids.length;
-        for (Contact c : contacts) {
+        for (Contact c : contacts) { // Get a contact from the SET
             for (int i = 0; i < ids.length; i++) {
+                // Compare it against all four ID's
                 if (ids[i] == c.getId()) {
                     contact.add(c);
                     idLength--;
@@ -330,10 +342,12 @@ public class ContactManagerImpl implements ContactManager, Serializable {
                     }
                 }
             }
+            // If match found, move to next contact
             if (idLength == 0) {
                 break;
             }
         }
+        // If no match found throw exception as ID not valid
         if (idLength > 0) {
             throw new IllegalArgumentException();
         }
@@ -342,10 +356,10 @@ public class ContactManagerImpl implements ContactManager, Serializable {
 
     @Override
     public void flush() {
+        // Store all data in .ser file when called.
         FileOutputStream fos = null;
         ObjectOutputStream ous = null;
         String filename = "CMdata.ser";
-
         try {
             fos = new FileOutputStream(filename);
             ous = new ObjectOutputStream(fos);

@@ -22,9 +22,14 @@ public class PastMeetingImpl extends MeetingImpl implements PastMeeting, Seriali
 
     @Override
     public String getNotes() {
-        return ((notes == null) ? " " : notes);
+        // Send empty string or existing notes if any
+        return ((notes == null) ? null : notes);
     }
 
+    /**
+     * Append new notes to existing notes.
+     * @param notes Input parameter
+     */
     public void addNotes(String notes) {
         this.notes += notes;
     }

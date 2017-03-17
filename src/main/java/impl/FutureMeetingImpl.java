@@ -15,6 +15,6 @@ public class FutureMeetingImpl extends MeetingImpl implements FutureMeeting, Ser
      * @throws NullPointerException if the user sends null Date
      */
     public FutureMeetingImpl(int id, Calendar date, Set<Contact> setContacts) {
-        super(id, date, setContacts);
+        super(id, date, setContacts); // Send parameter to super class
     }
 }
