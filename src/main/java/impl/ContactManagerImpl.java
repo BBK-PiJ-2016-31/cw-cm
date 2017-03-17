@@ -2,6 +2,7 @@ package impl;
 
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -21,7 +22,7 @@ import spec.PastMeeting;
  * Created by Damanjit on 09/03/2017.
  */
 
-public class ContactManagerImpl implements ContactManager {
+public class ContactManagerImpl implements ContactManager, Serializable {
     private IdGenerator id = new IdGenerator();
     private List<Meeting> meetingsList = new LinkedList<>();
     private List<Contact> contacts = new LinkedList<>();

@@ -1,8 +1,9 @@
 package impl;
 
+import java.io.Serializable;
 import spec.Contact;
 
-public class ContactImpl implements Contact {
+public class ContactImpl implements Contact, Serializable {
 
     private String name;
     private String notes;

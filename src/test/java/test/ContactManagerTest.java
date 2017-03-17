@@ -4,22 +4,17 @@
 
 package test;
 
-import impl.ContactManagerSerzImpl;
 import impl.PastMeetingImpl;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import impl.ContactImpl;
 import impl.ContactManagerImpl;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Ignore;
 import spec.Contact;
 import spec.ContactManager;
@@ -31,7 +26,7 @@ import static org.junit.Assert.*;
 
 public class ContactManagerTest {
 
-	private ContactManager manager = new ContactManagerSerzImpl();
+	private ContactManagerImpl manager = new ContactManagerImpl();
 	private int [] ids  = new int[12]; 		// Contact IDs
 	private String[] str = new String[12]; 	// for storing names
 	private int id1, id2, id3, id4; 		// For meeting IDs
@@ -574,10 +569,10 @@ public class ContactManagerTest {
         assertTrue(exception);
     }
 
-    @Ignore
+    @Test
     public void flushTest(){
         manager.flush();
-        ContactManager newManager = new ContactManagerSerzImpl();
+        ContactManagerImpl newManager = new ContactManagerImpl();
         FileInputStream fis = null;
         ObjectInputStream oin = null;
         try {
