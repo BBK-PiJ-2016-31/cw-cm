@@ -22,10 +22,10 @@ public class ContactImpl implements Contact, Serializable {
      */
     public ContactImpl(int id, String name, String notes) {
         if (id <= 0) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Error: Supplied has to be greater than 0");
         }
         if (name == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("Error: Name cannot be null");
         }
         this.id = id;
         this.name = name;
