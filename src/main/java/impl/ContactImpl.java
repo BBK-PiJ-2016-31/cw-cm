@@ -33,11 +33,10 @@ public class ContactImpl implements Contact, Serializable {
     }
 
     /**
-     * Secondry constructor when no notes are provided when contact is created.
-     * @param id - ID of the contact
-     * @param name - Name of the contact
-     * Uses the main constructor to initialise the contact.
-     */
+    * Secondry constructor when no notes are provided when contact is created.
+    * @param id - ID of the contact
+    * @param name - Name of the contact
+    */
     public ContactImpl(int id, String name) {
         this(id, name, null);
     }
