@@ -172,10 +172,8 @@ public class ContactManagerImpl implements ContactManager, Serializable {
         }
         List<Meeting> toSend = new ArrayList<>();
         for (Meeting m : meetingsList) { // Check YEAR and DAY of the YEAR
-            if (m.getDate().get(Calendar.YEAR) == date.get(Calendar.YEAR)) {
-                if (m.getDate().get(Calendar.DAY_OF_YEAR) == date.get(Calendar.DAY_OF_YEAR)) {
-                    toSend.add(m);
-                }
+            if (m.getDate().get(Calendar.YEAR) == date.get(Calendar.YEAR) && m.getDate().get(Calendar.DAY_OF_YEAR) == date.get(Calendar.DAY_OF_YEAR)) {
+                toSend.add(m);
             }
         }
         if (toSend.size() > 1) {

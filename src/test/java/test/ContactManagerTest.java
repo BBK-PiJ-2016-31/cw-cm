@@ -192,7 +192,7 @@ public class ContactManagerTest {
         assertTrue(exception);
         try {
             exception = false;
-            manager.getContacts(new int[]{001}); // Wrong ID
+            manager.getContacts(new int[]{1}); // Wrong ID
         } catch (IllegalArgumentException e) {
             exception = true;
         }
