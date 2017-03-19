@@ -27,7 +27,7 @@ public abstract class MeetingImpl implements Meeting, Serializable {
             throw new IllegalArgumentException();
         }
         if (date == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("Error: Date supplied cannnot be null!");
         }
         this.id = id;
         this.date = date;
