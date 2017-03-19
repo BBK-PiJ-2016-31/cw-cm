@@ -1,6 +1,7 @@
 package impl;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -32,17 +33,17 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     public int addFutureMeeting(Set<Contact> contacts, Calendar date) throws IllegalArgumentException, NullPointerException {
         // Null input check
         if (date == null || contacts == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("Error: Input parameters cannot be null!");
         }
         // Unknown contact check
         if (unknownContactCheck(contacts)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Error: Unknown contact found!");
         }
 
         now = Calendar.getInstance();
         // Valid future date check
         if (checkDate(date) == -1) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Error: Date supplied is in the past!");
         }
         int newId = id.getMeetingId();
         meetingsList.add(new FutureMeetingImpl(newId,date,contacts));
@@ -88,7 +89,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
         Meeting m = getMeeting(id);
         if (m != null) {
             if (m instanceof FutureMeetingImpl) {
-                throw new IllegalStateException();
+                throw new IllegalStateException("Error: id belongs to a FutureMeeting!");
             }
             return (PastMeeting) m;
         }
@@ -101,7 +102,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
         Meeting c = getMeeting(id);
         if (c != null) {  // Found meeting
             if (c instanceof PastMeetingImpl) {
-                throw new IllegalStateException();
+                throw new IllegalStateException("Error: id belongs to a PastMeeting!");
             }
             return (FutureMeeting) c;
         }
@@ -124,10 +125,10 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     @Override
     public List<Meeting> getFutureMeetingList(Contact contact) throws IllegalArgumentException, NullPointerException {
         if (contact == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("Error: Contact provided cannot be null!");
         }
         if (!inTheList(contact)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Error: Contact not found in the available contacts list!");
         }
         now = Calendar.getInstance();
         List<Meeting> futureMeetings = new ArrayList<>();
@@ -167,7 +168,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     @Override
     public List<Meeting> getMeetingListOn(Calendar date) throws NullPointerException {
         if (date == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("Error: Date provided cannot be null;");
         }
         List<Meeting> toSend = new ArrayList<>();
         for (Meeting m : meetingsList) { // Check YEAR and DAY of the YEAR
@@ -213,7 +214,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
      */
     private void sortMeetings() {
         Calendar now = Calendar.getInstance();
-        // ListIterator used so to ammend list while Iterating (Not possible in FOR LOOP)
+        // ListIterator used so to amend list while Iterating (Not possible in FOR LOOP)
         ListIterator<Meeting> meetingIterator = meetingsList.listIterator();
         while (meetingIterator.hasNext()) {
             Meeting m = meetingIterator.next(); // Store in m, as pointer moves to next item
@@ -232,10 +233,10 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     @Override
     public List<PastMeeting> getPastMeetingListFor(Contact contact) throws NullPointerException, IllegalArgumentException {
         if (contact == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("Error: Contact cannot be null!");
         }
         if (!inTheList(contact)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Error: Contact not found in the available contacts list!");
         }
         sortMeetings(); // Sorts meeting based on Future and Past
 
@@ -252,7 +253,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     public int addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) throws IllegalArgumentException, NullPointerException {
         // Null input check
         if (date == null || contacts == null || text == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("Error: Input parameters supplied cannot be null!");
         }
         // Check for contact size & date validity
         if (contacts.isEmpty() || checkDate(date) == 1) {
@@ -262,7 +263,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
         for (Contact c: contacts) {
             boolean match = inTheList(c);
             if (!match) {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("Error: Contact not found in the available contacts list!");
             }
         }
         // Setup the new Past Meeting now
@@ -274,18 +275,18 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     @Override
     public PastMeeting addMeetingNotes(int id, String text) throws IllegalArgumentException, IllegalStateException, NullPointerException, ClassCastException {
         if (text == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("Error: Notes cannot be null");
         }
         sortMeetings(); // Sorts meeting based on Future and Past
         Meeting m = getMeeting(id);
         if (m != null) {
             if (m instanceof FutureMeetingImpl) {
-                throw new IllegalStateException();
+                throw new IllegalStateException("Error: Cannot add notes to a FutureMeeting!");
             } else {
                 ((PastMeetingImpl) m).addNotes(text);
             }
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Error! Meeting with that id not found!");
         }
         return (PastMeeting)m;
     }
@@ -294,11 +295,11 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     public int addNewContact(String name, String notes)throws IllegalArgumentException, NullPointerException {
         // Null input check
         if (name == null || notes == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("Error: Name/Notes cannot be null!");
         }
         // Empty parameter check
         if (name.isEmpty() || notes.isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Error: Empty parameters not allowed!");
         }
         // Setup a new contact
         int newId = id.getContactId();
@@ -309,7 +310,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     @Override
     public Set<Contact> getContacts(String name)throws NullPointerException {
         if (name == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("Error: Name cannot be null");
         }
         Set<Contact> contact = new LinkedHashSet<>();
         for (Contact c: contacts) {
@@ -327,7 +328,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
     @Override
     public Set<Contact> getContacts(int[] ids) throws IllegalArgumentException {
         if (ids == null || ids.length == 0) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Error: id(s) provided cannot be null or empty!");
         }
         Set<Contact> contact = new LinkedHashSet<>();
         int idLength = ids.length;
@@ -349,7 +350,7 @@ public class ContactManagerImpl implements ContactManager, Serializable {
         }
         // If no match found throw exception as ID not valid
         if (idLength > 0) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Error: No match found for at least one meeting id!");
         }
         return contact;
     }
@@ -365,8 +366,10 @@ public class ContactManagerImpl implements ContactManager, Serializable {
             ous = new ObjectOutputStream(fos);
             ous.writeObject(this);
             ous.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
