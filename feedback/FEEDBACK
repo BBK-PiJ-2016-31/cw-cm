@@ -1,1 +1,12 @@
+Please look at the general comments to see if any apply.
 
+A reasonable set of tests.
+
+Please add javadoc for private fields and methods.
+
+Some similarity in the code for the various methods in CMImpl which
+suggests that they could be refactored. You might consider using
+Java 8 constructs going forward as this will reduce the size of
+the codebase.
+
+Very good attempt. Distinction.
